@@ -1,0 +1,109 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Newtonsoft.Json;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 0;
+}
+
+@{
+    string str = HttpContextAccessor.HttpContext.Session.GetString("UserMenus");
+    List<MVCCoreDemo.Models.MenuModel> UserMenus = JsonConvert.DeserializeObject<List<MVCCoreDemo.Models.MenuModel>>(str);
+    if (UserMenus != null)
+    {
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Master Settings</h4>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-5 col-sm-3">
+                                        <div id="tabstrip" class="nav flex-column nav-tabs h-100" role="tablist" aria-orientation="vertical">
+                                            @foreach (var submenu in UserMenus.Where(x => x.ParentMenuId == 6).ToList())
+                                            {
+                                                <a class="nav-link" data-toggle="tab" href="#@submenu.Mnu_Action" role="tab">@submenu.MenuName</a>
+                                            }
+                                            @*<a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">Role Wise Menu</a>
+                                                <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Role Menu Operation Access</a>*@
+                                        </div>
+                                    </div>
+                                    <div class="col-7 col-sm-9">
+                                        <div class="tab-content" id="vert-tabs-tabContent">
+                                            @foreach (var submenu in UserMenus.Where(x => x.ParentMenuId == 6).ToList())
+                                            {
+                                                if (count == 0)
+                                                {
+                                                    <p hidden id="Add_@submenu.Mnu_Action">@submenu.IS_ADD_ACCESS</p>
+                                                    <p hidden id="Edit_@submenu.Mnu_Action">@submenu.IS_EDIT_ACCESS</p>
+                                                    <p hidden id="Delete_@submenu.Mnu_Action">@submenu.IS_DELETE_ACCESS</p>
+
+                                                    <div class="tab-pane active" id="@submenu.Mnu_Action" role="tabpanel">
+                                                        @{
+                                                            Html.RenderPartial("_" + submenu.Mnu_Action, "");
+                                                        }
+                                                        @*@Html.RenderPartialAsync("_" + submenu.Mnu_Action);*@
+                                                        @*@Html.PartialAsync("_" + submenu.Mnu_Action)*@
+                                                    </div>
+                                                    count++;
+                                                }
+                                                else
+                                                {
+                                                    <p hidden id="Add_@submenu.Mnu_Action">@submenu.IS_ADD_ACCESS</p>
+                                                    <p hidden id="Edit_@submenu.Mnu_Action">@submenu.IS_EDIT_ACCESS</p>
+                                                    <p hidden id="Delete_@submenu.Mnu_Action">@submenu.IS_DELETE_ACCESS</p>
+
+                                                    <div class="tab-pane" id="@submenu.Mnu_Action" role="tabpanel">
+
+                                                        @*@{Html.RenderPartial("_" + submenu.Mnu_Action);}*@
+                                                    </div>
+                                                }
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script src="~/dist/plugins/jquery/jquery.min.js"></script>
+        <script type="text/javascript">
+            $('#tabstrip a').click(function (e) {
+                e.preventDefault()
+                var tabID = $(this).attr("href").substr(1);
+                //alert(tabID);
+                $(".tab-pane").each(function () {
+                    //console.log("clearing " + $(this).attr("id") + " tab");
+                    $(this).empty();
+                });
+                //debugger;
+                $.ajax({
+                    type: "GET",
+                    url: "MasterSetting/" + tabID,
+                    cache: false,
+                    data: {
+                        val: tabID
+                    },
+                    contentType: 'application/html; charset=utf-8',
+                    dataType: "html",
+                    success: function (msg) {
+                        // debugger;
+                        $("#" + tabID).html(msg);
+                        // alert(tabID);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("get session failed " + errorThrown);
+                    }
+                });
+
+            });
+        </script>
+    }
+}

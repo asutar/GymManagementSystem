@@ -1,0 +1,226 @@
+﻿<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link href="~/css/site.min.css" rel="stylesheet" />
+<style>
+    .select2-dropdown.select2-dropdown--below {
+        width: 350px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        padding: 0px;
+        /* height: 37px; */
+        width: 350px;
+        font-size: 1.2em;
+        position: relative;
+    }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            background-image: -khtml-gradient(linear, left top, left bottom, from(#424242), to(#030303));
+            background-image: -moz-linear-gradient(top, #424242, #030303);
+            background-image: -ms-linear-gradient(top, #424242, #030303);
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #424242), color-stop(100%, #030303));
+            background-image: -webkit-linear-gradient(top, #424242, #030303);
+            background-image: -o-linear-gradient(top, #424242, #030303);
+            background-image: linear-gradient(#424242, #030303);
+            width: 40px;
+            color: #fff;
+            font-size: 1.3em;
+            padding: 4px 12px;
+            height: 27px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+        }
+
+</style>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4"><button type="button" class="btn btn-block bg-gradient-info btn-sm" onclick="OpenCreateBatch();">Click to Create Batch</button></div>
+            </div>
+            <br />
+            <table class="table table-bordered table-striped table-hover dataTable" id="BatchMemberGrid">
+                <thead>
+                    <tr class="align-middle">
+                        <th style="width:50px">Action</th>
+                        <th>Batch Member Id</th>
+                        <th>Member</th>
+                        <th>Batch</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="js-sweetalert"></tbody>
+            </table>
+            <input type="hidden" id="hdnBatchId" />
+        </div>
+    </div>
+    <!-- /.modal -->
+
+    @*<div class="modal fade" id="MemberRegitrationModel">*@
+        <div class="modal fade" id="MemberRegitrationModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @*<h4 class="modal-title">Batch Member Registration</h4>*@
+                        <h4 class="modal-title"><i class="fa fa-pen"></i> Batch Member Registration</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="memberSelection" class="form-label">Member</label>
+                            <select class="form-control select2" style="width: 100%;" id="member" name="member"></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="batchSelection" class="form-label">Batch</label>
+                            <select class="form-control select2" style="width: 100%;" id="batch" name="batch"></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="batchSelection" class="form-label">Package</label>
+                            <select class="form-control select2" style="width: 100%;" id="package" name="package"></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="startDate" class="form-label">Start Date</label>
+                            <input type="text" class="form-control" id="startdate" name="startdate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="endDate" class="form-label">End Date</label>
+                            <input type="text" class="form-control" id="enddate" name="enddate">
+                        </div>
+                        <div class="mb-3">
+                            <label for="NextFeesDate" class="form-label">Next Fees Date</label>
+                            <input type="text" class="form-control" id="NextFeesDate" name="NextFeesDate">
+                        </div>
+                        <div class="mb-3">
+                            <input type="checkbox" value="" id="chkOnHold">
+                            <label class="form-check-label" for="defaultCheck1">
+                                On Hold
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="AddBatchMember();">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </div>
+<script src="~/MasterSettings/BatchMember.js"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+<script>
+    var Toast;
+    var NoOfDays = 0;
+    $(document).ready(function () {
+        LoadMemberList();
+        LoadBatchList();
+        LoadPackageList();
+        $('#startdate').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'           // Desired date format
+            },
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var selectedDate = start.toDate();
+
+            // Define the number of business days to add (e.g., 14 days)
+            var numberOfBusinessDaysToAdd = 30;
+            numberOfBusinessDaysToAdd = BatchOnChange();
+            // Calculate the new date based on business days
+            var newDate = addBusinessDays(selectedDate, numberOfBusinessDaysToAdd);
+
+            // Display the calculated date in the input field
+            $('#enddate').val(moment(newDate).format('DD/MM/YYYY'));
+            });
+        $('#enddate').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'           // Desired date format
+            },
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+            //alert("You are " + years + " years old!");
+            });
+        $('#NextFeesDate').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'           // Desired date format
+            },
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+            //alert("You are " + years + " years old!");
+        });
+        Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        document.getElementById("contact").addEventListener("input", function () {
+            if (this.value.length > 3) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+    });
+
+    $(function () {
+        LoadBatchMemberList();
+    });
+
+    function addBusinessDays(startDate, numDays) {
+        debugger;
+        var currentDate = new Date(startDate);
+        var addedDays = 0;
+
+        while (addedDays < numDays) {
+            currentDate.setDate(currentDate.getDate() + 1);
+
+            // Check if the current day is a weekend (Saturday or Sunday)
+            if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+                addedDays++;
+            }
+        }
+
+        return currentDate;
+    }
+    function BatchOnChange() {
+        var ddlId = $('#batch').val();
+
+        _model = {
+            "BATCH_ID": (ddlId == '-' ? '0' : ddlId) || (ddlId == '' ? '0' : ddlId) || (ddlId == undefined ? '0' : ddlId) || (ddlId == 'undefined' ? '0' : ddlId),
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "MasterSetting/GetBatchNoOfDays",
+            dataType: 'json',
+            async: false,
+            data: {
+                model: _model
+            },
+            success: function (response) {
+                debugger;
+                NoOfDays = response
+            }
+        });
+        return NoOfDays;
+    }
+</script>
+<script src="~/dist/plugins/moment/moment.min.js"></script>
+<script src="~/dist/plugins/sweetalert2/sweetalert2.js"></script>

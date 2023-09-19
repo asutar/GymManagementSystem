@@ -1,0 +1,224 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model MVCCoreDemo.Models.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>A-LITE</title>
+    <style type="text/css">
+
+        input[type=text], select {
+            width: 150px;
+        }
+
+        .modal {
+            position: fixed;
+            z-index: 999;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            /*background-color: Black;*/
+            filter: alpha(opacity=60);
+            opacity: 0.6;
+            -moz-opacity: 0.8;
+            display: none;
+        }
+
+        .center {
+            z-index: 1000;
+            margin: 50px auto;
+            padding: 10px;
+            width: 130px;
+            background-color: White;
+            border-radius: 10px;
+            filter: alpha(opacity=100);
+            opacity: 1;
+            -moz-opacity: 1;
+        }
+
+            .center img {
+                margin-top: 128px;
+                height: 120px;
+                width: 120px;
+            }
+    </style>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link href="~/dist/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- icheck bootstrap -->
+    <link href="~/dist/plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.15/sweetalert2.css" />
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="../../index2.html" class="h1"><b>A</b>LITE</a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+
+                <form asp-action="Index" asp-controller="Account" data-ajax="true" data-ajax-method="POST" data-ajax-begin="OnBegin" data-ajax-failure="OnFailure" data-ajax-success="OnSuccess" data-ajax-complete="OnComplete" class="form-horizontal">
+                    @Html.AntiForgeryToken()
+
+                    <div class="input-group mb-3">
+                        <input type="text" id="USER_NAME" class="form-control" name="USER_NAME" placeholder="Enter your username" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" id="PASSWORD" class="form-control" name="PASSWORD" placeholder="Enter your password" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            @*<div class="icheck-primary">*@
+                            <input type="checkbox" id="REMEMBER" name="REMEMBER">
+                            <label for="remember">
+                                Remember Me
+                            </label>
+                            @*</div>*@
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+                </form>
+
+                <div class="social-auth-links text-center mt-2 mb-3">
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                    </a>
+                </div>
+                <!-- /.social-auth-links -->
+
+                <p class="mb-1">
+                    <a href="forgot-password.html">I forgot my password</a>
+                </p>
+                <p class="mb-0">
+                    <a href="register.html" class="text-center">Register a new membership</a>
+                </p>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <div id="progress" class="modal">
+        <div class="center">
+
+            <img src="~/dist/img/loader.gif" />
+        </div>
+    </div>
+
+    <!-- /.login-box -->
+    <!-- jQuery -->
+
+    <script src="~/dist/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/dist/js/adminlte.min.js"></script>
+    <!--Sweet Alert-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.15/sweetalert2.min.js"></script>
+    <!--Sweet Alert End-->
+    <script>
+        $('#REMEMBER').change(function () {
+            if (this.checked) {
+                $('#REMEMBER').val('true');
+            } else {
+                $('#REMEMBER').val('true');
+            }
+        });
+        var Toast;
+        $(document).ready(function () {
+            Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            preventBack();
+        });
+      
+        function preventBack() {
+            window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+
+        window.onunload = function () { null };
+
+    </script>
+ 
+    <script type="text/javascript">
+
+        function OnBegin() {
+            $("#progress").show();
+        }
+
+        function OnFailure(response) {
+            alert("Error occured.");
+        }
+
+        function OnSuccess(response) {
+            if (response) {
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Signed in successfully'
+                });
+                window.location.href="@Url.Action("Index","Dashboard",new {Area= "Dashboard" })";
+            } else {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Incorrect User or Password'
+                })
+            }
+        }
+
+        function OnComplete() {
+            $("#progress").hide();
+        }
+    </script>
+</body>
+</html>
+
+@{
+    if (TempData["msg"] != null)
+    {
+        <script>
+            alert('@TempData["msg"]')
+        </script>
+    }
+}
+

@@ -1,0 +1,176 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .text_align_center {
+        text-align: center;
+    }
+</style>
+
+    <section class="content">
+        <div class="container-fluid">
+            <h2></h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3 id="divEnquery" class="text_align_center"></h3>
+                                    <p class="text_align_center">Enquiry's</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3 id="divBatch" class="text_align_center"></h3>
+                                    <p class="text_align_center">Batch</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3 id="divPlans" class="text_align_center"></h3>
+                                    <p class="text_align_center">Plans</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3 id="divBirthday" class="text_align_center"></h3>
+                                    <p class="text_align_center">Birthdays</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3 id="divTrainers" class="text_align_center"></h3>
+                                    <p class="text_align_center">Trainers</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3 id="divTodayRegisterMember" class="text_align_center"></h3>
+                                    <p class="text_align_center">New Member's</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-bag"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-success"><i class="fas fa-user-plus"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Members</span>
+                                    <span class="info-box-number" id="spanMembers">1,410</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info"><i class="fa fa-piggy-bank"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Todays Collection</span>
+                                    <span class="info-box-number" id="spanTodayCollection">1,410</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red"><i class="fas fa-user-plus"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Unpaid</span>
+                                    <span class="info-box-number" id="spanUnpaid">1,410</span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-red"><i class="fas fa-user-plus"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">In Active Users</span>
+                                    <span class="info-box-number">1,410</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title" style="margin: 0px;">Monthly Admissions<span id="Donutlegend"></span></h4>
+                            <div id="bar-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title" style="margin: 0px;">Monthly Fees Collection<span id="Donutlegend_1"></span></h4>
+                            <div id="piechart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+<script src="~/dist/plugins/jquery/jquery.min.js"></script>
+<script src="~/Dashboard/Dashboard.js"></script>
+<script>
+    $(document).ready(function () {
+        GetAllCount();
+        disablePrev();
+        RenderCharts();
+    });
+
+    function disablePrev() { window.history.forward() }
+    window.onload = disablePrev();
+    window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
+</script>

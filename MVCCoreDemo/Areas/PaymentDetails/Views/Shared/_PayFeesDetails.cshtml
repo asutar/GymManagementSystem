@@ -1,0 +1,159 @@
+﻿<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link href="~/css/site.min.css" rel="stylesheet" />
+<style>
+    .select2-dropdown.select2-dropdown--below {
+        width: 190px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        padding: 0px;
+        /* height: 37px; */
+        width: 212px;
+        font-size: 1.2em;
+        position: relative;
+    }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            background-image: -khtml-gradient(linear, left top, left bottom, from(#424242), to(#030303));
+            background-image: -moz-linear-gradient(top, #424242, #030303);
+            background-image: -ms-linear-gradient(top, #424242, #030303);
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #424242), color-stop(100%, #030303));
+            background-image: -webkit-linear-gradient(top, #424242, #030303);
+            background-image: -o-linear-gradient(top, #424242, #030303);
+            background-image: linear-gradient(#424242, #030303);
+            width: 40px;
+            color: #fff;
+            font-size: 1.3em;
+            padding: 4px 12px;
+            height: 27px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+        }
+
+    .receipt {
+        border: 2px solid #000;
+        padding: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .receipt h1 {
+        text-align: center;
+    }
+
+    .receipt p {
+        margin: 0;
+    }
+</style>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <br />
+            <table class="table table-bordered table-striped table-hover dataTable" id="PayfessDetails">
+                <thead>
+                    <tr class="align-middle">
+                        <th style="width:50px">Action</th>
+                        <th>Transaction No</th>
+                        <th>Transaction Date</th>
+                        <th>Member</th>
+                        <th>Paid Amount</th>
+                        <th>Pending Amount</th>
+                        <th>Total Amount</th>
+                        <th>Payment Type</th>
+                    </tr>
+                </thead>
+                <tbody class="js-sweetalert"></tbody>
+            </table>
+            <input type="hidden" id="hdnBatchId" />
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="PdfPopup">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Generate Receipt</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="receipt">
+                    <h1>Billing Receipt</h1>
+                    <p><strong>Member Name: </strong><span id="span_MemberName"></span></p>
+                    <p><strong>Transaction Number: </strong> <span id="span_TransactionNumber"></span></p>
+                    <p><strong>Date: </strong> <span id="span_TransactionDate"></span></p>
+                    <p><strong>Total Amount: </strong><span id="span_TotalAmount"></span></p>
+                    <p><strong>Paid Amount: </strong><span id="span_PaidAmount"></span></p>
+                    <p><strong>Pending Amount: </strong> <span id="span_PendingAmount"></span></p>
+                </div>
+                <button onclick="printReceipt()">Print Receipt</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script src="~/dist/plugins/jquery/jquery.min.js"></script>
+<script src="~/PaymentDetails/PayFeesDetails.js"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+<script>
+    var Toast;
+    $(document).ready(function () {
+
+        LoadPayFeesDetails();
+
+        $('#FromDate').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'           // Desired date format
+            },
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+        });
+
+        $('#ToDate').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'           // Desired date format
+            },
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+            });
+
+        Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        document.getElementById("contact").addEventListener("input", function () {
+            if (this.value.length > 3) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+    });
+    function printReceipt() {
+        var receipt = document.querySelector('.receipt');
+        var printWindow = window.open('', '', 'width=600,height=600');
+        printWindow.document.open();
+        printWindow.document.write('<html><head><title>Billing Receipt</title></head><body>');
+        printWindow.document.write(receipt.outerHTML);
+        printWindow.document.write('</html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+</script>
+
+<script src="~/dist/plugins/moment/moment.min.js"></script>
+<script src="~/dist/plugins/sweetalert2/sweetalert2.js"></script>

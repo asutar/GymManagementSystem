@@ -1,0 +1,126 @@
+﻿<link href="~/dist/plugins/sweetalert2/sweetalert2.css" rel="stylesheet" />
+<style>
+    .select2-dropdown.select2-dropdown--below {
+        width: 190px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        padding: 0px;
+        /* height: 37px; */
+        width: 212px;
+        font-size: 1.2em;
+        position: relative;
+    }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            background-image: -khtml-gradient(linear, left top, left bottom, from(#424242), to(#030303));
+            background-image: -moz-linear-gradient(top, #424242, #030303);
+            background-image: -ms-linear-gradient(top, #424242, #030303);
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #424242), color-stop(100%, #030303));
+            background-image: -webkit-linear-gradient(top, #424242, #030303);
+            background-image: -o-linear-gradient(top, #424242, #030303);
+            background-image: linear-gradient(#424242, #030303);
+            width: 40px;
+            color: #fff;
+            font-size: 1.3em;
+            padding: 4px 12px;
+            height: 27px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+        }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header card">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    @*<h4><b> Role Menu Operation Access</b></h4>*@
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 m-t-25">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="card-title">Role List</h4>
+                        </div>
+                        <div class="body">
+                            <select class="form-control" id="ddlUserRole"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 m-t-25">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="card-title">Menu List</h4>
+                        </div>
+                        <div style="max-height: 420px;overflow:auto" id="menuList">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 m-t-25">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="card-title">Operation Access</h4>
+                        </div>
+                        <div class="body" id="">
+                            <div id="divOperationAccess" style="display:none;">
+                                <input hidden id="RoleMenuMapID" />
+                                <input hidden id="RoleID" />
+                                <input hidden id="MenuID" />
+                                <div class="header" style="padding:0px">
+                                    <h5 id="SelectedMenuText"></h5>
+                                </div>
+
+                                <div style=" padding-top:20px;">
+                                    <div class="checkbox">
+                                        <input id="chkIS_ADD_ACCESS" type="checkbox">
+                                        <label id="Lbl_Add" for="chkIS_ADD_ACCESS">
+                                            <strong></strong>
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input id="chkIS_EDIT_ACCESS" type="checkbox">
+                                        <label id="Lbl_Edit" for="chkIS_EDIT_ACCESS">
+                                            <strong></strong>
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input id="chkIS_DELETE_ACCESS" type="checkbox">
+                                        <label id="Lbl_Delete" for="chkIS_DELETE_ACCESS">
+                                            <strong> Delete Access</strong>
+                                        </label>
+                                    </div>
+                                    <button type="button" id="btnSave" class="btn btn-primary btn-round waves-effect" onclick="saveRoleMenuOperationAccess();">SAVE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal" id="modal_loading" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="text-center z-index">
+        <img class="position-absolute text-center " src="~/Images/lg.ring-loading-gif.gif" style="width: 55px; top:50%" />
+    </div>
+</div>
+<script src="~/dist/plugins/jquery/jquery.min.js"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+
+<script>
+    $(function () {
+        loadMenuSettings();
+        GetUserRoles();
+        $("#ddlUserRole").select2();
+        $("#ddlUserRole").change(function () {
+            GetRoleWise($('option:selected', this).val());
+        });
+    });
+</script>
+<script src="~/dist/plugins/sweetalert2/sweetalert2.js"></script>
+<script src="~/UserAccess/RoleMenuOperationAccess.js"></script>

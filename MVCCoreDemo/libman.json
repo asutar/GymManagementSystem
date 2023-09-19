@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "select2@4.0.13",
+      "destination": "wwwroot/select2/"
+    },
+    {
+      "library": "sweetalert2@11.7.20",
+      "destination": "wwwroot/sweetalert2/"
+    },
+    {
+      "library": "jqgrid@5.8.5",
+      "destination": "wwwroot/jqgrid/"
+    },
+    {
+      "library": "jquery-datetimepicker@2.5.20",
+      "destination": "wwwroot/jquery-datetimepicker/"
+    },
+    {
+      "library": "webcamjs@1.0.26",
+      "destination": "wwwroot/webcamjs/"
+    },
+    {
+      "library": "morris.js@0.5.1",
+      "destination": "wwwroot/morris.js/"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+﻿
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link href="~/css/site.min.css" rel="stylesheet" />
+<style>
+    .select2-dropdown.select2-dropdown--below {
+        width: 300px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        padding: 0px;
+        /* height: 37px; */
+        width: 300px;
+        font-size: 1.2em;
+        position: relative;
+    }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            background-image: -khtml-gradient(linear, left top, left bottom, from(#424242), to(#030303));
+            background-image: -moz-linear-gradient(top, #424242, #030303);
+            background-image: -ms-linear-gradient(top, #424242, #030303);
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #424242), color-stop(100%, #030303));
+            background-image: -webkit-linear-gradient(top, #424242, #030303);
+            background-image: -o-linear-gradient(top, #424242, #030303);
+            background-image: linear-gradient(#424242, #030303);
+            width: 40px;
+            color: #fff;
+            font-size: 1.3em;
+            padding: 4px 12px;
+            height: 27px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+        }
+    
+</style>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="memberSelect" class="form-label">Member</label>
+                <select class="form-control select2" id="member" onchange="LoadBatchList();" required></select>
+            </div>
+            <div class="mb-3">
+                <label for="batchSelect" class="form-label">Batch</label>
+                <select class="form-control select2" id="batch" onchange=" GetPendingFeesAmount();" required></select>
+            </div>
+            <div class="mb-3">
+                <label for="pendingAmount" class="form-label">Pending Amount</label>
+                <input type="text" class="form-control col-md-3" id="pendingAmount" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="amount" class="form-label">Amount</label>
+                <input type="number" class="form-control col-md-3" id="amount" placeholder="Enter amount" onchange="AmountPandingAmount();" required>
+            </div>
+            @*<div class="mb-3">
+            <label for="totalAmount" class="form-label">Total Amount</label>
+            <input type="text" class="form-control col-md-3" id="totalAmount" readonly>
+        </div>*@
+
+            <div class="mb-3">
+                <label for="paymentMethod" class="form-label">Payment Method</label>
+                <select class="form-control col-md-3" id="paymentMethod" required>
+                    <option value="" disabled selected>Select a payment method</option>
+                    <option value="creditCard">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <!-- Add more payment options as needed -->
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="Pay();">Pay</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/dist/plugins/jquery/jquery.min.js"></script>
+<script src="~/PaymentDetails/PayFees.js"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+<script>
+    var Toast;
+    $(document).ready(function () {
+        LoadMemberList();
+        LoadPayTypeList();
+        LoadBatchList();
+        Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        document.getElementById("contact").addEventListener("input", function () {
+            if (this.value.length > 3) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+
+    });
+</script>
+
+<script src="~/dist/plugins/moment/moment.min.js"></script>
+<script src="~/dist/plugins/sweetalert2/sweetalert2.js"></script>

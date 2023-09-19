@@ -1,0 +1,48 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    // An array of relative input file paths. Globbing patterns supported
+    "inputFiles": [
+      "wwwroot/css/site.css",
+      "wwwroot/dist/plugins/Jstree/jstree.min.css",
+      "wwwroot/dist/plugins/select2/css/select2.css",
+      "wwwroot/dist/fontawesome-free/css/all.min.css",
+      "wwwroot/dist/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css",
+      "wwwroot/dist/plugins/datatables-responsive/css/responsive.bootstrap4.min.css",
+      "wwwroot/dist/plugins/datatables-buttons/css/buttons.bootstrap4.min.css",
+      "wwwroot/dist/plugins/sweetalert2/sweetalert2.css",
+      "wwwroot/dist/plugins/daterangepicker/daterangepicker.css",
+      "wwwroot/morrisjs/morris.css"
+      //"wwwroot/dist/plugins/jquery-ui/jquery-ui.min.css",
+      //"wwwroot/jqgrid/css/ui.jqgrid.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/jstree/jstree.min.js",
+      "wwwroot/dist/plugins/select2/js/select2.js",
+      "wwwroot/dist/plugins/bootstrap/js/bootstrap.bundle.min.js",
+      "wwwroot/dist/plugins/datatables/jquery.dataTables.min.js",
+      "wwwroot/dist/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js",
+      "wwwroot/dist/plugins/datatables-responsive/js/dataTables.responsive.min.js",
+      "wwwroot/dist/plugins/datatables-responsive/js/responsive.bootstrap4.min.js",
+      "wwwroot/dist/plugins/datatables-buttons/js/dataTables.buttons.min.js",
+      "wwwroot/dist/plugins/datatables-buttons/js/buttons.bootstrap4.min.js",
+      "wwwroot/dist/plugins/daterangepicker/daterangepicker.js",
+      "wwwroot/webcamjs-master/webcam.js",
+      "wwwroot/dist/plugins/raphael/raphael.js",
+      "wwwroot/morrisjs/morris.js"
+      //"wwwroot/jqgrid/js/i18n/grid.locale-en.js",
+      //"wwwroot/jqgrid/js/jquery.jqGrid.js",
+      //"wwwroot/dist/plugins/jquery-ui/jquery-ui.js"
+    ]
+    // Optionally specify minification options
+    //"minify": {
+    //  "enabled": true,
+    //  "renameLocals": true
+    //},
+    //// Optionally generate .map file
+    //"sourceMap": false
+  }
+]

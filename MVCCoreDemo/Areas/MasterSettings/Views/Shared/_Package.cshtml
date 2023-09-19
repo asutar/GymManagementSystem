@@ -1,0 +1,110 @@
+﻿<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link href="~/css/site.min.css" rel="stylesheet" />
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4"><button type="button" class="btn btn-block bg-gradient-info btn-sm" onclick="OpenCreatePackage();">Click to Create Package</button></div>
+            </div>
+            <br />
+            <table class="table table-bordered table-striped table-hover dataTable" id="PackageGrid">
+                <thead>
+                    <tr class="align-middle">
+                        <th style="width:50px">Action</th>
+                        <th>Package Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Fees</th>
+                        <th>Tax</th>
+                        <th>Total Fees</th>
+                    </tr>
+                </thead>
+                <tbody class="js-sweetalert"></tbody>
+            </table>
+            <input type="hidden" id="hdnPackageId" />
+        </div>
+    </div>
+    <!-- /.modal -->
+
+    <div class="modal fade" id="PackageModel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @*<h4 class="modal-title">Package Registration</h4>*@
+                    <h4 class="modal-title"><i class="fa fa-pen"></i> Package Registration</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="container mt-5">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" name="title" maxlength="50">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="description" name="description" maxlength="400">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Fees</label>
+                                <input type="text" class="form-control" id="fees" name="fees" onchange="CalculateFees();" maxlength="50">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Tax</label>
+                                <select class="form-control select2" id="tax" name="tax" onchange="CalculateFees();"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Total Fees</label>
+                                <input type="text" class="form-control" id="totalfees"  name="totalfees" maxlength="50" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="AddPackage();">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+<script src="~/MasterSettings/Package.js"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+<script>
+    var Toast;
+    $(document).ready(function () {
+        LoadPackage();
+        LoadTaxList();
+        Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        document.getElementById("contact").addEventListener("input", function () {
+            if (this.value.length > 3) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+    });
+</script>
+<script src="~/dist/plugins/sweetalert2/sweetalert2.js"></script>

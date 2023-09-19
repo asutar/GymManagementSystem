@@ -1,0 +1,186 @@
+﻿<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link href="~/css/site.min.css" rel="stylesheet" />
+<style>
+    .select2-dropdown.select2-dropdown--below {
+        width: 190px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        padding: 0px;
+        /* height: 37px; */
+        width: 212px;
+        font-size: 1.2em;
+        position: relative;
+    }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            background-image: -khtml-gradient(linear, left top, left bottom, from(#424242), to(#030303));
+            background-image: -moz-linear-gradient(top, #424242, #030303);
+            background-image: -ms-linear-gradient(top, #424242, #030303);
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #424242), color-stop(100%, #030303));
+            background-image: -webkit-linear-gradient(top, #424242, #030303);
+            background-image: -o-linear-gradient(top, #424242, #030303);
+            background-image: linear-gradient(#424242, #030303);
+            width: 40px;
+            color: #fff;
+            font-size: 1.3em;
+            padding: 4px 12px;
+            height: 27px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+        }
+</style>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4"><button type="button" class="btn btn-block bg-gradient-info btn-sm" onclick="OpenCreateBatch();">Click to Create Batch</button></div>
+            </div>
+            <br />
+            <table class="table table-bordered table-striped table-hover dataTable" id="BatchGrid">
+                <thead>
+                    <tr class="align-middle">
+                        <th style="width:50px">Action</th>
+                        <th>Batch Id</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                        <th>Amount</th>
+                        <th>Tax</th>
+                        <th>GST Amount</th>
+                        <th>Total Amount</th>
+                        <th>No of Days</th>
+                    </tr>
+                </thead>
+                <tbody class="js-sweetalert"></tbody>
+            </table>
+            <input type="hidden" id="hdnBatchId" />
+        </div>
+    </div>
+    <!-- /.modal -->
+
+    <div class="modal fade" id="MemberRegitrationModel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @*<h4 class="modal-title">Plan Registration</h4>*@
+                    <h4 class="modal-title"><i class="fa fa-pen"></i> Plan Registration</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="Name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="FromDate">From Date</label>
+                            <input type="text" class="form-control" id="FromDate" name="FromDate">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="ToDate">To Date</label>
+                            <input type="text" class="form-control" id="ToDate" name="ToDate">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="FromDate">No fo Days</label>
+                            <input type="number" class="form-control" id="NoOfDays" name="NoOfDays">
+                        </div>
+                        <div class="form-group col-md-6">
+                           
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="Amount">Amount</label>
+                            <input type="text" class="form-control" id="Amount" onchange="CalculateFees();" maxlength="50">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="GSTAmount">GST Amount</label>
+                            <input type="text" class="form-control" id="GSTAmount" maxlength="50" disabled>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="TaxType">Tax</label>
+                            <select class="form-control select2" id="TaxType" name="TaxType" onchange="CalculateFees();"></select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="TotalAmount">Total Amount</label>
+                            <input type="text" class="form-control" id="TotalAmount" disabled>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="AddBatch();">Add Plan</button>
+                </div>
+                </div>
+            @*<div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="AddBatch();">Save changes</button>
+                </div>*@
+            @*</div>*@
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+<script src="~/dist/plugins/jquery/jquery.min.js"></script>
+<script src="~/MasterSettings/Batch.js"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+<script>
+    var Toast;
+    $(document).ready(function () {
+        LoadTaxList();
+        LoadBatchList();
+        $('#FromDate').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'           // Desired date format
+            },
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+        });
+
+        $('#ToDate').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'           // Desired date format
+            },
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+        });
+        Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        document.getElementById("contact").addEventListener("input", function () {
+            if (this.value.length > 3) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+    });
+
+</script>
+
+<script src="~/dist/plugins/moment/moment.min.js"></script>
+<script src="~/dist/plugins/sweetalert2/sweetalert2.js"></script>
