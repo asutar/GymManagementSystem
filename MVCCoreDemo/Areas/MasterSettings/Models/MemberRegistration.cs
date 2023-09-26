@@ -36,6 +36,10 @@ namespace MVCCoreDemo.Areas.MasterSettings.Models
         public string OPERATION_STATUS { get; set; }
         [JsonProperty("IS_ACTIVE")]
         public bool IS_ACTIVE { get; set; }
+        [JsonProperty("IS_ON_HOLD")]
+        public bool IS_ON_HOLD { get; set; }
+        [JsonProperty("IS_NO_HOLD_DATETIME")]
+        public string IS_NO_HOLD_DATETIME { get; set; }
     }
     public class MemberRegistrationPagingation
     {

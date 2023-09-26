@@ -24,6 +24,7 @@
     <Folder Include="Areas\LeadManagement\Data\" />
     <Folder Include="Areas\LeadManagement\Models\" />
     <Folder Include="Areas\UserAccess\Data\" />
+    <Folder Include="DataBaseBackup\" />
   </ItemGroup>
 
 </Project>

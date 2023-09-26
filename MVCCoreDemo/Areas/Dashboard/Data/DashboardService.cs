@@ -18,6 +18,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Data
         BirthdayPagingation GetBirthday(int USER_ID, DataTableAjaxPostModel model);
         MemberRegistrationPagingation GetMemberToday(int MEMBERID, DataTableAjaxPostModel model);
         UnpaidPagingation GetUnPaidDetails(int USER_ID, DataTableAjaxPostModel model);
+        MemberRegistrationPagingation GetInActiveMember(int MEMBERID, DataTableAjaxPostModel model);
     }
     public class DashboardService : IDashboardService
     {
@@ -256,6 +257,56 @@ namespace MVCCoreDemo.Areas.Dashboard.Data
                     }
                     _MemberRegistrationPagingation.filteredCount = TotalRecord;
                     _MemberRegistrationPagingation.UnpaidList = lstData;
+                }
+                con.Close();
+            }
+
+            return _MemberRegistrationPagingation;
+        }
+        public MemberRegistrationPagingation GetInActiveMember(int MEMBERID, DataTableAjaxPostModel model)
+        {
+            int TotalRecord = 0;
+            MemberRegistrationPagingation _MemberRegistrationPagingation = new MemberRegistrationPagingation();
+            List<MemberRegistration> lstData = new List<MemberRegistration>();
+
+            using (SqlConnection con = new SqlConnection(CON_STRING))
+            {
+                SqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "PROC_GET_INACTIVE_MEMBER";
+
+                cmd.Parameters.Add("@MEMBERID", SqlDbType.Int).Value = MEMBERID;
+                cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
+                cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
+                cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
+                cmd.Parameters.Add("@PAGINGSIZE", SqlDbType.Int).Value = model.length;
+                cmd.Parameters.Add("@SEARCHTEXT", SqlDbType.VarChar).Value = model.search.value == null ? "" : model.search.value;
+                con.Open();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        TotalRecord = Convert.ToInt32(dr["TOTALCOUNT"]);
+                        lstData.Add(new MemberRegistration
+                        {
+                            MEMBERID = Convert.ToInt32(dr["MEMBERID"]),
+                            FIRSTNAME = Convert.ToString(dr["FIRSTNAME"]),
+                            LASTNAME = Convert.ToString(dr["LASTNAME"]),
+                            GENDER_ID = Convert.ToInt32(dr["GENDER_ID"]),
+                            GENDER = Convert.ToString(dr["GENDER"]),
+                            DATEOFBIRTH = Convert.ToString(dr["DATEOFBIRTH"]),
+                            CONTACTNUMBER = Convert.ToString(dr["CONTACTNUMBER"]),
+                            EMAIL = Convert.ToString(dr["EMAIL"]),
+                            ADDRESS = Convert.ToString(dr["ADDRESS"]),
+                            ADDED_DATE = Convert.ToString(dr["ADDED_DATE"]),
+                            IMAGEDATA = Convert.ToString(dr["IMAGEDATA"]),
+                            IS_ACTIVE = Convert.ToBoolean(dr["IS_ACTIVE"]),
+                            IS_ON_HOLD = Convert.ToBoolean(dr["IS_ON_HOLD"]),
+                            IS_NO_HOLD_DATETIME = Convert.ToString(dr["IS_NO_HOLD_DATETIME"]),
+                        });
+                    }
+                    _MemberRegistrationPagingation.filteredCount = TotalRecord;
+                    _MemberRegistrationPagingation.MemberList = lstData;
                 }
                 con.Close();
             }

@@ -50,7 +50,6 @@ C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\bin\Debug\netcoreapp
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\bin\Debug\netcoreapp2.1\MVCCoreDemo.pdb
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\bin\Debug\netcoreapp2.1\MVCCoreDemo.Views.dll
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\bin\Debug\netcoreapp2.1\MVCCoreDemo.Views.pdb
-C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.csprojAssemblyReference.cache
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.csproj.CoreCompileInputs.cache
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.RazorAssemblyInfo.cache
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.RazorAssemblyInfo.cs
@@ -89,3 +88,4 @@ C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.pdb
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.csproj.CopyComplete
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\Razor\Areas\UserAccess\Views\Shared\_CreatUser.g.cshtml.cs
+C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.csprojAssemblyReference.cache

@@ -48,6 +48,12 @@ function LoadTrainerList() {
                     return strAction;
                 },
             },
+            {
+                render: function (data, type, row) {
+                    //debugger;
+                    return (row.IMAGEDATA == null || row.IMAGEDATA == undefined || row.IMAGEDATA == '-') ? '<img style="width:73px;height:80px;" src="/images/images.jpeg" alt="">' : '<img style="width:73px;height:80px;" src=' + row.IMAGEDATA + ' alt="">'
+                }
+            },
             { "data": "TRAINER_ID", "width": '100px' },
             { "data": "FIRSTNAME", "width": '100px' },
             { "data": "LASTNAME", "width": '100px' },

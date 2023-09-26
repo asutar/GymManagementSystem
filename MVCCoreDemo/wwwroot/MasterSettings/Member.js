@@ -4,7 +4,7 @@ function LoadMemberList() {
     var IsEdit = document.getElementById("Edit_Member").innerHTML;
     var IsDelete = document.getElementById("Delete_Member").innerHTML;
     var IsAdd = document.getElementById("Add_Member").innerHTML;
-    debugger;
+    //debugger;
     $("#MemberGrid").DataTable().clear();
     $("#MemberGrid").dataTable().fnDestroy();
 
@@ -48,6 +48,13 @@ function LoadMemberList() {
                     return strAction;
                 },
             },
+            {
+                render: function (data, type, row) {
+                    //debugger;
+                    return (row.IMAGEDATA == null || row.IMAGEDATA == undefined || row.IMAGEDATA == '-') ? '<img style="width:73px;height:80px;" src="/images/images.jpeg" alt="">' : '<img style="width:73px;height:80px;" onclick="OpenImage('+ row.IMAGEDATA +');" src=' + row.IMAGEDATA + ' alt="">'
+                   // return '<img src=' + row.IMAGEDATA + ' alt="">';
+                }
+            },
             { "data": "MEMBERID", "width": '100px' },
             { "data": "FIRSTNAME", "width": '100px' },
             { "data": "LASTNAME", "width": '100px' },
@@ -65,6 +72,11 @@ function LoadMemberList() {
         ],
         //"order": [[1, "asc"]],
     });
+}
+function OpenImage(IMAGEDATA) {
+    //debugger;
+    $('#PhotoViewModal').modal('show');
+    $("#ImageShow").attr("src", IMAGEDATA);
 }
 function OpenCreateMember() {
     Clear();
@@ -151,7 +163,7 @@ function AddMember() {
         $('#address').focus();
         return false;
     }
-    debugger;
+    //debugger;
     _model = {
         "MEMBERID": ($('#hdnMemberId').val() == null ? 0 : $('#hdnMemberId').val()) || ($('#hdnMemberId').val() == '' ? 0 : $('#hdnMemberId').val()) || ($('#hdnMemberId').val() == "" ? 0 : $('#hdnMemberId').val()) || ($('#hdnMemberId').val() == undefined ? 0 : $('#hdnMemberId').val()),
         "FIRSTNAME": firstName,
@@ -252,7 +264,7 @@ function CaptureSnapshot() {
     Webcam.reset();
 }
 function Reset() {
-    debugger;
+    //debugger;
     $("#results").empty();
     Webcam.set({
         width: 300,
@@ -266,7 +278,7 @@ function Reset() {
 
 function DisplayTempImage()
 {
-    debugger;
+    //debugger;
     document.getElementById('finalresults').innerHTML = '<img style="width:164px;height:186px;" src="' + TempData + '"/>';
     $('#CaptureImageModel').modal('hide');
     Webcam.reset();

@@ -59,7 +59,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Controllers
                 data = _Results.BirthdayList
             });
         }
-        public JsonResult GetMember(DataTableAjaxPostModel model, MemberRegistration _model) //Gets the todo Lists.  
+        public JsonResult GetMember(DataTableAjaxPostModel model, MemberRegistration _model) 
         {
             MemberRegistrationPagingation _Results = _IDashboardService.GetMemberToday(0, model);
             return Json(new
@@ -70,7 +70,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Controllers
                 data = _Results.MemberList
             });
         }
-        public JsonResult GetUnPaidDetails(DataTableAjaxPostModel model, Unpaid _model) //Gets the todo Lists.  
+        public JsonResult GetUnPaidDetails(DataTableAjaxPostModel model, Unpaid _model)
         {
             UnpaidPagingation _Results = _IDashboardService.GetUnPaidDetails(0, model);
             return Json(new
@@ -79,6 +79,17 @@ namespace MVCCoreDemo.Areas.Dashboard.Controllers
                 recordsTotal = _Results.filteredCount,
                 recordsFiltered = _Results.filteredCount,
                 data = _Results.UnpaidList
+            });
+        }
+        public JsonResult GetInActiveMember(DataTableAjaxPostModel model, MemberRegistration _model)
+        {
+            MemberRegistrationPagingation _Results = _IDashboardService.GetInActiveMember(0, model);
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = _Results.filteredCount,
+                recordsFiltered = _Results.filteredCount,
+                data = _Results.MemberList
             });
         }
     }

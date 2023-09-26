@@ -161,6 +161,14 @@ function UnPaidMemberPopup() {
     $('#UnPaidMemberPopup').modal('show');
     LoadUnPaidMemberList();
 }
+function TodayCollectionPopup() {
+    $('#TodayCollectionPopup').modal('show');
+    LoadPayFeesDetails();
+}
+function InActiveMemberPopup() {
+    $('#InActiveMemberPopup').modal('show');
+    LoadInActiveMemberList();
+}
 function LoadBatchList() {
     var webUrl = $('#WebUrl').val();
     webUrl = webUrl.replace(/"/g, '');
@@ -431,6 +439,104 @@ function LoadUnPaidMemberList() {
             { "data": "GENDER", "width": '100px' },
             { "data": "PENDING_AMOUNT", "width": '100px' },
             { "data": "CONTACTNUMBER", "width": '100px' },
+        ],
+    });
+}
+function LoadPayFeesDetails() {
+
+    $("#PayfessDetails").DataTable().clear();
+    $("#PayfessDetails").dataTable().fnDestroy();
+
+    var table = $('#PayfessDetails').DataTable({
+        "proccessing": true,
+        "serverSide": true,
+        "scrollX": true,
+        "scrollY": '50vh',
+        scroller: true,
+
+        "ajax": {
+            complete: function (data) {
+                //  $(".MasterLoader").fadeOut();
+            },
+            url: "../PaymentDetails/Payment/GetTodayPayFeesHistory",
+            "data": function (d) {
+
+                DRIVER_ID = "0"
+            },
+            type: 'POST'
+        },
+        "columns": [
+            {
+            render: function (data, type, row) {
+
+                var strAction = '';
+               
+                    strAction += '<button id="btnEdit" class="btn btn-success btn-sm rounded-0" data-original-title="Edit"  onclick="OpenBillingPopup(\'' + encodeURIComponent(row.TRASACTION_NO)
+                        + '\',\'' + encodeURIComponent(row.TRANSATION_DATETIME)
+                        + '\',\'' + encodeURIComponent(row.MEMBER_NAME)
+                        + '\',\'' + encodeURIComponent(row.PAID_AMOUNT)
+                        + '\',\'' + encodeURIComponent(row.PENDING_AMOUNT)
+                        + '\',\'' + encodeURIComponent(row.TOTAL_AMOUNT)
+                        + '\',\'' + encodeURIComponent(row.TYPE_NAME)
+                    + '\')"><i class="fa fa-file" aria-hidden="true"></i></button>';
+
+                return strAction;
+            },
+        },
+            { "data": "TRASACTION_NO", "width": '100px' },
+            { "data": "TRANSATION_DATETIME", "width": '100px' },
+            { "data": "MEMBER_NAME", "width": '200px' },
+            { "data": "PAID_AMOUNT", "width": '50px' },
+            { "data": "PENDING_AMOUNT", "width": '50px' },
+            { "data": "TOTAL_AMOUNT", "width": '50px' },
+            { "data": "TYPE_NAME", "width": '50px' }
+        ],
+    });
+}
+function LoadInActiveMemberList() {
+
+    $("#InActiveMemberGrid").DataTable().clear();
+    $("#InActiveMemberGrid").dataTable().fnDestroy();
+
+    var table = $('#InActiveMemberGrid').DataTable({
+        "proccessing": true,
+        "serverSide": true,
+        //"scrollX": true,
+        //"scrollY": '50vh',
+        //scroller: true,
+
+        "ajax": {
+            complete: function (data) {
+                //  $(".MasterLoader").fadeOut();
+            },
+            url: "../Dashboard/Dashboard/GetInActiveMember",
+            "data": function (d) {
+
+                DRIVER_ID = "0"
+            },
+            type: 'POST'
+        },
+        "columns": [
+            { "data": "MEMBERID", "width": '100px' },
+            { "data": "FIRSTNAME", "width": '100px' },
+            { "data": "LASTNAME", "width": '100px' },
+            { "data": "GENDER", "width": '100px' },
+            { "data": "DATEOFBIRTH", "width": '100px' },
+            { "data": "CONTACTNUMBER", "width": '100px' },
+            { "data": "EMAIL", "width": '100px' },
+            { "data": "ADDRESS", "width": '100px' },
+            { "data": "ADDED_DATE", "width": '100px' },
+            {
+                render: function (data, type, row) {
+                    return (row.IS_ACTIVE == 0 ? '<span class="badge bg-danger">In Active</span>' : '<span class="badge bg-success"> Active</span>')
+                }
+            },
+            {
+                render: function (data, type, row) {
+                    return (row.IS_ON_HOLD == 0 ? '<span class="badge bg-danger">In Active</span>' : '<span class="badge bg-success"> On Hold</span>')
+                }
+            },
+            { "data": "IS_NO_HOLD_DATETIME", "width": '100px' },
         ],
     });
 }

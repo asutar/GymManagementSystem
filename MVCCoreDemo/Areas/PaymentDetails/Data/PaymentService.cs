@@ -18,6 +18,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
         ReturnResponse PayFees(PayFees model);
         PayFeesPagingation GetPayFeesDetails(int FEES_MEMBER_ID, DataTableAjaxPostModel model);
         List<BatchScheduledDateTime> GetBatchByMember(int MEMBERID);
+        PayFeesPagingation GetTodayPayFeesHistory(int FEES_MEMBER_ID, DataTableAjaxPostModel model);
     }
         public class PaymentService : IPaymentService
     {
@@ -233,6 +234,52 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
             }
 
             return lstData;
+        }
+        public PayFeesPagingation GetTodayPayFeesHistory(int FEES_MEMBER_ID, DataTableAjaxPostModel model)
+        {
+            int TotalRecord = 0;
+            PayFeesPagingation _PayFeesPagingation = new PayFeesPagingation();
+            List<PayFees> lstData = new List<PayFees>();
+
+            using (SqlConnection con = new SqlConnection(CON_STRING))
+            {
+                SqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "PROC_GET_TODAY_FEES_HISTORY";
+
+                cmd.Parameters.Add("@FEES_MEMBER_HISTORY_ID", SqlDbType.Int).Value = FEES_MEMBER_ID;
+                cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
+                cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
+                cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
+                cmd.Parameters.Add("@PAGINGSIZE", SqlDbType.Int).Value = model.length;
+                cmd.Parameters.Add("@SEARCHTEXT", SqlDbType.VarChar).Value = model.search.value == null ? "" : model.search.value;
+                con.Open();
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        TotalRecord = Convert.ToInt32(dr["TOTALCOUNT"]);
+                        lstData.Add(new PayFees
+                        {
+                            FEES_MEMBER_ID = Convert.ToInt32(dr["FEES_MEMBER_HISTORY_ID"]),
+                            MEMBER_ID = Convert.ToInt32(dr["MEMBER_ID"]),
+                            MEMBER_NAME = Convert.ToString(dr["MEMBER_NAME"]),
+                            PAID_AMOUNT = Convert.ToDecimal(dr["PAID_AMOUNT"]),
+                            TOTAL_AMOUNT = Convert.ToDecimal(dr["TOTAL_AMOUNT"]),
+                            PENDING_AMOUNT = Convert.ToDecimal(dr["PENDING_AMOUNT"]),
+                            PAYMENT_ID = Convert.ToInt32(dr["PAYMENT_ID"]),
+                            TYPE_NAME = Convert.ToString(dr["TYPE_NAME"]),
+                            TRASACTION_NO = Convert.ToString(dr["TRANSACTION_NO"]),
+                            TRANSATION_DATETIME = Convert.ToString(dr["TRANSACTION_DATETIME"]),
+                        });
+                    }
+                    _PayFeesPagingation.filteredCount = TotalRecord;
+                    _PayFeesPagingation.PayFeesList = lstData;
+                }
+                con.Close();
+            }
+
+            return _PayFeesPagingation;
         }
     }
 }

@@ -76,5 +76,16 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Controllers
             List<BatchScheduledDateTime> Results = _IPaymentService.GetBatchByMember(model.MEMBERID);
             return Json(Results);
         }
+        public JsonResult GetTodayPayFeesHistory(DataTableAjaxPostModel model, PayFees _model)
+        {
+            PayFeesPagingation _Results = _IPaymentService.GetTodayPayFeesHistory(0, model);
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = _Results.filteredCount,
+                recordsFiltered = _Results.filteredCount,
+                data = _Results.PayFeesList
+            });
+        }
     }
 }

@@ -23,6 +23,7 @@
                 <thead>
                     <tr class="align-middle">
                         <th style="width:50px">Action</th>
+                        <th>Photo</th>
                         <th>Member Id</th>
                         <th>First Name</th>
                         <th>Last No</th>
@@ -123,7 +124,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                 
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div id="LiveCamera" style="width:300px;"></div>
@@ -146,6 +147,25 @@
                 </div>
             </div>
             <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="PhotoViewModal">
+        <div class="modal-dialog" style="max-width: 1335px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-pen"></i> Photo View</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="divImage">
+                        <img id="ImageShow" style="width:100px;height:150px;" src="" alt="">
+                    </div>
+                  
+                </div>
+            </div>
         </div>
         <!-- /.modal-dialog -->
     </div>

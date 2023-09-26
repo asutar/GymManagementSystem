@@ -107,7 +107,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="info-box">
-                            <span class="info-box-icon bg-info"><i class="fa fa-piggy-bank"></i></span>
+                            <span onclick="TodayCollectionPopup();" class="info-box-icon bg-info"><i class="fa fa-piggy-bank"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Todays Collection</span>
                                 <span class="info-box-number" id="spanTodayCollection">1,410</span>
@@ -129,7 +129,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="info-box">
-                            <span class="info-box-icon bg-red"><i class="fas fa-user-plus"></i></span>
+                            <span onclick="InActiveMemberPopup();" class="info-box-icon bg-red"><i class="fas fa-user-plus"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">In Active Users</span>
                                 <span class="info-box-number">1,410</span>
@@ -364,6 +364,70 @@
                                 <th>Gender</th>
                                 <th>Pending Amount </th>
                                 <th>Contact </th>
+                            </tr>
+                        </thead>
+                        <tbody class="js-sweetalert"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="TodayCollectionPopup">
+        <div class="modal-dialog" style="max-width: 1067px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-pen"></i> Today Collection</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-hover dataTable" id="PayfessDetails">
+                        <thead>
+                            <tr class="align-middle">
+                                <th style="width:50px">Action</th>
+                                <th>Transaction No</th>
+                                <th>Transaction Date</th>
+                                <th>Member</th>
+                                <th>Paid Amount</th>
+                                <th>Pending Amount</th>
+                                <th>Total Amount</th>
+                                <th>Payment Type</th>
+                            </tr>
+                        </thead>
+                        <tbody class="js-sweetalert"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="InActiveMemberPopup">
+        <div class="modal-dialog" style="max-width: 1335px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-pen"></i> InActive Member</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-hover dataTable" id="InActiveMemberGrid">
+                        <thead>
+                            <tr class="align-middle">
+                                <th>Member Id</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Gender</th>
+                                <th>Birth Date </th>
+                                <th>Contact </th>
+                                <th>Email </th>
+                                <th>Address </th>
+                                <th>Added Date</th>
+                                <th>Status</th>
+                                <th>On Hold</th>
+                                <th>On Hold <br> Date</th>
                             </tr>
                         </thead>
                         <tbody class="js-sweetalert"></tbody>

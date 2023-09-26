@@ -53,8 +53,8 @@
             { "data": "BATCH_ID", "width": '100px' },
             { "data": "NAME", "width": '200px' },
             { "data": "DESCRIPTION", "width": '200px' },
-            { "data": "FROM_DATE", "width": '200px' },
-            { "data": "TO_DATE", "width": '200px' },
+            //{ "data": "FROM_DATE", "width": '200px' },
+            //{ "data": "TO_DATE", "width": '200px' },
             { "data": "AMOUNT", "width": '200px' },
             { "data": "TAX_NAME", "width": '200px' },
             { "data": "GST_AMOUNT", "width": '200px' },
@@ -65,6 +65,9 @@
     });
 }
 function OpenCreateBatch() {
+    setTimeout(function () {
+        $("#overlay").fadeOut(300);
+    }, 500);
     Clear();
     $('#MemberRegitrationModel').modal('show');
 }
@@ -133,8 +136,8 @@ function AddBatch() {
         "BATCH_ID": ($('#hdnBatchId').val() == null ? 0 : $('#hdnBatchId').val()) || ($('#hdnBatchId').val() == '' ? 0 : $('#hdnBatchId').val()) || ($('#hdnBatchId').val() == "" ? 0 : $('#hdnBatchId').val()) || ($('#hdnBatchId').val() == undefined ? 0 : $('#hdnBatchId').val()),
         "NAME": name,
         "DESCRIPTION": Description,
-        "FROM_DATE": FromDate,
-        "TO_DATE": ToDate,
+        //"FROM_DATE": FromDate,
+        //"TO_DATE": ToDate,
         "AMOUNT": Amount,
         "TAX_ID": TaxType,
         "GST_AMOUNT": GSTAmount,
@@ -142,7 +145,7 @@ function AddBatch() {
         "NO_OF_DAYS": NoOfDays,
         "OPERATION_STATUS": ($('#hdnBatchId').val() === '' ? "ADD" : "UPDATE")
     }
-
+    $('#mySpinner').addClass('spinner');
     $.ajax({
         type: 'POST',
         url: 'MasterSetting/CreateBatch',
@@ -151,6 +154,7 @@ function AddBatch() {
         },
         dataType: 'JSON',
         success: function (result) {
+            $('#mySpinner').removeClass('spinner');
             Toast.fire({
                 icon: result.RESPONSETYPE == "0" ? 'error' : 'success',
                 title: result.RESPONSEMESSAGE
@@ -173,8 +177,8 @@ function EditBatch(BATCH_ID, NAME, DESCRIPTION, FROM_DATE, TO_DATE, AMOUNT, TAX_
     $('#hdnBatchId').val(decodeURIComponent(BATCH_ID));
     $('#name').val(decodeURIComponent(NAME));
     $('#description').val(decodeURIComponent(DESCRIPTION));
-    $('#FromDate').val(decodeURIComponent(FROM_DATE));
-    $('#ToDate').val(decodeURIComponent(TO_DATE));
+    //$('#FromDate').val(decodeURIComponent(FROM_DATE));
+    //$('#ToDate').val(decodeURIComponent(TO_DATE));
     $('#Amount').val(decodeURIComponent(AMOUNT));
     $('#GSTAmount').val(decodeURIComponent(GST_AMOUNT));
     $('#TaxType').val(decodeURIComponent(TAX_ID));

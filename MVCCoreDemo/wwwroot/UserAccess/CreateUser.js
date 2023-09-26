@@ -222,7 +222,7 @@ function AddUser() {
     });
 }
 function OpenCreateUser() {
-   // Clear();
+    Clear();
     $('#CreateUserModel').modal('show');
     SetBackGroundImage();
 }
@@ -325,3 +325,19 @@ function GetUserRoles() {
         }
     });
 };
+
+function Clear() {
+    $('#finalresults').val('');
+    $('#firstName').val('');
+    $('#middleName').val('');
+    $('#lastName').val('');
+    $('#UserName').val('');
+    $('#Password').val('');
+    $('#gender').val(1);
+    $('#birthDate').val('');
+    $('#contact').val('');
+    $('#email').val('');
+    $('#ddlUserRole').change('');
+    $('#address').val('');
+    $('#hdnMemberId').val('');
+}

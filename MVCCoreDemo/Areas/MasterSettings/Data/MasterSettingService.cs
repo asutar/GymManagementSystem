@@ -296,8 +296,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                     cmd.CommandText = "PROC_ADD_BATCH";
                     cmd.Parameters.Add("@NAME", SqlDbType.VarChar).Value = model.NAME;
                     cmd.Parameters.Add("@DESCRIPTION", SqlDbType.VarChar).Value = model.DESCRIPTION;
-                    cmd.Parameters.Add("@FROM_DATE", SqlDbType.Date).Value = model.FROM_DATE;
-                    cmd.Parameters.Add("@TO_DATE", SqlDbType.Date).Value = model.TO_DATE;
+                    cmd.Parameters.Add("@FROM_DATE", SqlDbType.Date).Value =  DateTime.Now.Date;
+                    cmd.Parameters.Add("@TO_DATE", SqlDbType.Date).Value = DateTime.Now.Date;
                     cmd.Parameters.Add("@AMOUNT", SqlDbType.Decimal).Value = model.AMOUNT;
                     cmd.Parameters.Add("@TAX_ID", SqlDbType.Int).Value = model.TAX_ID;
                     cmd.Parameters.Add("@GST_AMOUNT", SqlDbType.Decimal).Value = model.GST_AMOUNT;
@@ -338,8 +338,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                     cmd.Parameters.Add("@BATCH_ID", SqlDbType.Int).Value = model.BATCH_ID;
                     cmd.Parameters.Add("@NAME", SqlDbType.VarChar).Value = model.NAME;
                     cmd.Parameters.Add("@DESCRIPTION", SqlDbType.VarChar).Value = model.DESCRIPTION;
-                    cmd.Parameters.Add("@FROM_DATE", SqlDbType.Date).Value = model.FROM_DATE;
-                    cmd.Parameters.Add("@TO_DATE", SqlDbType.Date).Value = model.TO_DATE;
+                    cmd.Parameters.Add("@FROM_DATE", SqlDbType.Date).Value = DateTime.Now.Date;
+                    cmd.Parameters.Add("@TO_DATE", SqlDbType.Date).Value = DateTime.Now.Date;
                     cmd.Parameters.Add("@AMOUNT", SqlDbType.Decimal).Value = model.AMOUNT;
                     cmd.Parameters.Add("@TAX_ID", SqlDbType.Int).Value = model.TAX_ID;
                     cmd.Parameters.Add("@GST_AMOUNT", SqlDbType.Decimal).Value = model.GST_AMOUNT;
