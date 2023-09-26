@@ -1,0 +1,257 @@
+﻿<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<link href="~/dist/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+<link href="~/css/site.min.css" rel="stylesheet" />
+<!-- CSS CDN -->
+<style>
+    .modal-open .modal {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .modal-body {
+        max-height: 500px; /* Adjust the max height as needed */
+        overflow-y: auto;
+    }
+</style>
+<style>
+    .select2-dropdown.select2-dropdown--below {
+        width: 190px !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        padding: 0px;
+        /* height: 37px; */
+        width: 212px;
+        font-size: 1.2em;
+        position: relative;
+    }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            background-image: -khtml-gradient(linear, left top, left bottom, from(#424242), to(#030303));
+            background-image: -moz-linear-gradient(top, #424242, #030303);
+            background-image: -ms-linear-gradient(top, #424242, #030303);
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #424242), color-stop(100%, #030303));
+            background-image: -webkit-linear-gradient(top, #424242, #030303);
+            background-image: -o-linear-gradient(top, #424242, #030303);
+            background-image: linear-gradient(#424242, #030303);
+            width: 40px;
+            color: #fff;
+            font-size: 1.3em;
+            padding: 4px 12px;
+            height: 27px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+        }
+</style>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4"><button type="button" class="btn btn-block bg-gradient-info btn-sm" onclick="OpenCreateUser();">Click to Create User</button></div>
+            </div>
+            <br />
+            <table class="table table-bordered table-striped table-hover dataTable" id="CreateUserGrid">
+                <thead>
+                    <tr class="align-middle">
+                        <th style="width:50px">Action</th>
+                        <th>User Name</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Birth Date </th>
+                        <th>Contact </th>
+                        <th>Email </th>
+                        <th>Address </th>
+                        <th>Added Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody class="js-sweetalert"></tbody>
+            </table>
+            <input type="hidden" id="hdnMemberId" />
+        </div>
+    </div>
+    <!-- /.modal -->
+
+    <div class="modal fade" id="CreateUserModel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-pen"></i> User Creation</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="container mt-5">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <button type="button" class="btn btn-primary" onclick="OpenCaptureSnapModal();"><i class="fa fa-camera"></i> Capture Snapshot</button>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div id="finalresults" style="width:164px;height:186px;margin-left:100px;">Your snapshot will appear here...</div>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" name="firstName" maxlength="10">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="lastName" class="form-label">Middle Name</label>
+                                <input type="text" class="form-control" id="middleName" name="middleName" maxlength="10">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" name="lastName" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="UserName" name="UserName" maxlength="10">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Password</label>
+                                <input type="text" class="form-control" id="Password" name="Password" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-control" id="gender" name="gender">
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                    <option value="3">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="birthDate" class="form-label">Birth Date</label>
+                                <input type="text" class="form-control" id="birthDate" name="birthDate">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="contact" class="form-label">Contact</label>
+                                <input type="number" class="form-control" id="contact" name="contact">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                               
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Role</label>
+                                <select id="ddlUserRole" class="custom-select"></select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <textarea class="form-control" id="address" name="address" rows="3" maxlength="100"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="AddUser();">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <div class="modal fade" id="CaptureImageModel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa fa-pen"></i> Capture Snapshot</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div id="LiveCamera" style="width:300px;"></div>
+                            <form>
+                                <input type="button" class="btn btn-primary" value="Capture Snapshot" onClick="CaptureSnapshot()">
+                                <input type="button" class="btn btn-primary" value="Reset" onClick="Reset()">
+                            </form>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="panel-heading">Captured Snapshot/Image</div>
+                            <div class="panel-body">
+                                <div id="results">Your snapshot will appear here...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="DisplayTempImage();">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+<script src="~/dist/plugins/jquery/jquery.min.js"></script>
+<script src="~/UserAccess/CreateUser.js"></script>
+<script src="~/js/site.min.js" asp-append-version="true"></script>
+<script>
+    var Toast;
+    $(document).ready(function () {
+
+        LoadUserList();
+        GetUserRoles();
+        $('#birthDate').daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY'           // Desired date format
+            },
+            maxYear: parseInt(moment().format('YYYY'), 10)
+        }, function (start, end, label) {
+            var years = moment().diff(start, 'years');
+            //alert("You are " + years + " years old!");
+        });
+
+
+        Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+        document.getElementById("contact").addEventListener("input", function () {
+            if (this.value.length > 3) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+    });
+    function SetBackGroundImage() {
+        var imagePath = 'url("../images/images.jpeg")';
+        $('#finalresults').css('background-image', imagePath);
+    }
+
+</script>
+<script src="~/dist/plugins/moment/moment.min.js"></script>
+<script src="~/dist/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="~/dist/plugins/sweetalert2/sweetalert2.js"></script>

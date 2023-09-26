@@ -84,29 +84,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetMember(DataTableAjaxPostModel model, MemberRegistration _model) //Gets the todo Lists.  
         {
-            //int pageIndex = Convert.ToInt32(page) - 1;
-            //int pageSize = rows;
-            //var Results = _MasterSettingService.GetProject(0);
             MemberRegistrationPagingation _Results = _MasterSettingService.GetMember(0, model);
-            //int totalRecords = Results.Count();
-            //var totalPages = (int)Math.Ceiling((float)totalRecords / (float)rows);
-            //if (sord.ToUpper() == "DESC")
-            //{
-            //    Results = Results.OrderByDescending(s => s.MEMBERID);
-            //    Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
-            //}
-            //else
-            //{
-            //    Results = Results.OrderBy(s => s.MEMBERID);
-            //    Results = Results.Skip(pageIndex * pageSize).Take(pageSize);
-            //}
-            //var jsonData = new
-            //{
-            //    total = totalPages,
-            //    page,
-            //    records = totalRecords,
-            //    rows = Results
-            //}; 
             return Json(new
             {
                 draw = model.draw,

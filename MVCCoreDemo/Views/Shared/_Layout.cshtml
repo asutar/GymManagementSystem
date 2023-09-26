@@ -42,6 +42,8 @@
                         <ul id="sidebarnav" class="navbar-nav">
                             @{
                                 string str = HttpContextAccessor.HttpContext.Session.GetString("UserMenus");
+                                string WebUrl = HttpContextAccessor.HttpContext.Session.GetString("ApiKey");
+                                <input type="hidden" value=@WebUrl id="WebUrl" />
                                 List<MVCCoreDemo.Models.MenuModel> UserMenus = JsonConvert.DeserializeObject<List<MVCCoreDemo.Models.MenuModel>>(str);
                                 //  var UserMenus = Session["UserMenus"] as List<FLEETVIGIL_ONG.Models.MenuModel>;
                                 if (UserMenus != null)

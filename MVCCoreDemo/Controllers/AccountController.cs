@@ -14,6 +14,7 @@ namespace MVCCoreDemo.Controllers
 {
     public class AccountController : Controller
     {
+        string _ApiKeyService = Startup.ApiKeyService;
         private ILoginService _loginService;
         public AccountController(ILoginService loginService)
         {
@@ -43,8 +44,10 @@ namespace MVCCoreDemo.Controllers
                     HttpContext.Session.SetObjectInSession("Home_Page", menuDetails.MENU_ACCESS);
                     HttpContext.Session.SetObjectInSession("UserMenus", menuDetails.MENU_MODEL_LIST);
                     HttpContext.Session.SetObjectInSession("USER_ID", _loginModel.USER_ID);
+                    HttpContext.Session.SetObjectInSession("ApiKey", _ApiKeyService);
                     // HttpContext.Session.Set<List<MenuModel>>("UserMenus", menuDetails.MENU_MODEL_LIST);
-                   
+
+
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, _loginModel.USER_NAME)

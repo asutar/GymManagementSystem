@@ -23,6 +23,7 @@ namespace MVCCoreDemo
         private Container container = new SimpleInjector.Container();
         public IConfigurationRoot ConfigurationRoot { get; set; }
         public static string ConnectionString { get; private set; }
+        public static string ApiKeyService { get; private set; }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -74,6 +75,7 @@ namespace MVCCoreDemo
 
             app.UseStaticFiles();
             ConnectionString = ConfigurationRoot.GetConnectionString("DefaultConnection");
+            ApiKeyService = ConfigurationRoot.GetSection("ConfigKey")["WebUrl"];
             //app.UseMvc(routes =>
             //{
             //    routes.MapRoute(

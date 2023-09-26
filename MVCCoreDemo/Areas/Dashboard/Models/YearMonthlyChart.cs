@@ -34,5 +34,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Models
         public string November { get; set; }
         [JsonProperty("December")]
         public string December { get; set; }
+        [JsonProperty("USER_ID")]
+        public int USER_ID { get; set; }
     }
 }

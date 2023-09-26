@@ -61,7 +61,10 @@ namespace MVCCoreDemo.Areas.UserAccess.Controllers
         {
             return PartialView("_RoleMenuOperationAccess");
         }
-
+        public PartialViewResult CreatUser()
+        {
+            return PartialView("_CreatUser");
+        }
         [HttpGet]
         public IActionResult GeAllMenu(string RoleId)
         {
@@ -85,7 +88,7 @@ namespace MVCCoreDemo.Areas.UserAccess.Controllers
             List<UserRole> lstrole = new List<UserRole>();
             try
             {
-              lstrole = _UserAccessService.UpdateRepositoryForIDAsync(1);
+              lstrole = _UserAccessService.UpdateRepositoryForIDAsync(Convert.ToInt32(_rolemodel.RoleId));
             }
             catch (Exception ex)
             {
@@ -157,6 +160,41 @@ namespace MVCCoreDemo.Areas.UserAccess.Controllers
                 throw ex;
             }
             return Json(ReturnVal);
+        }
+        public JsonResult GetSubClinet(DataTableAjaxPostModel model, User _model)
+        {
+             UserPagingation _Results = _UserAccessService.GetSubClientAsync(0, model);
+
+            return Json(new
+            {
+                draw = model.draw,
+                recordsTotal = _Results.filteredCount,
+                recordsFiltered = _Results.filteredCount,
+                data = _Results.UserList
+            });
+        }
+        [HttpPost]
+        public JsonResult CreateSubClient(User model)
+        {
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+           
+            model.SUB_CLIENT_ID = model.USER_ID;
+            model.USER_ID = USER_ID;
+            model.ADDED_BY_ID = USER_ID;
+            ReturnResponse returnResponse = new ReturnResponse();
+
+            model.ADDED_BY = USER_ID;
+            if (model.OPERATION_STATUS == "UPDATE")
+            {
+                returnResponse = _UserAccessService.UpdateSubClient(model);
+            }
+            else
+            {
+                returnResponse = _UserAccessService.AddSubClient(model);
+            }
+
+            return Json(returnResponse);
+
         }
     }
 }

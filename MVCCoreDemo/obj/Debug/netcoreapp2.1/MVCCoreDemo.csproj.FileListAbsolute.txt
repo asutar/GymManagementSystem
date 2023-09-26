@@ -88,3 +88,4 @@ C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.dll
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.pdb
 C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\MVCCoreDemo.csproj.CopyComplete
+C:\Users\vinay\source\repos\GymManagementSystem\MVCCoreDemo\obj\Debug\netcoreapp2.1\Razor\Areas\UserAccess\Views\Shared\_CreatUser.g.cshtml.cs

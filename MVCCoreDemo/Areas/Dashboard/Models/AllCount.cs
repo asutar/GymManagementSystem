@@ -10,6 +10,8 @@ namespace MVCCoreDemo.Areas.Dashboard.Models
     {
         [JsonProperty("ID")]
         public int ID { get; set; }
+        [JsonProperty("USER_ID")]
+        public int USER_ID { get; set; }
         [JsonProperty("DAILY_ENQUIRY")]
         public int DAILY_ENQUIRY { get; set; }
         [JsonProperty("REGISTERED_MEMBER")]
