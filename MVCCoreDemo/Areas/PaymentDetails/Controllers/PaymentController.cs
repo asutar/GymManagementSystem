@@ -34,12 +34,14 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Controllers
         }
         public JsonResult GetPaymentTypeList(PaymentTypeList model)
         {
-            IEnumerable<PaymentTypeList> Results = _IPaymentService.GetPaymentType(0);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            IEnumerable<PaymentTypeList> Results = _IPaymentService.GetPaymentType(0, USER_ID);
             return Json(Results);
         }
         public JsonResult GetPayFees(DataTableAjaxPostModel model, PayFees _model) //Gets the todo Lists.  
         {
-            PayFeesPagingation _Results = _IPaymentService.GetPayFees(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            PayFeesPagingation _Results = _IPaymentService.GetPayFees(0, USER_ID, model);
             return Json(new
             {
                 draw = model.draw,
@@ -50,7 +52,8 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Controllers
         }
         public JsonResult GetPendingAmount(PayFees model)
         {
-            PayFees Results = _IPaymentService.GetPendingAmount(model.MEMBER_ID, model.BATCH_ID);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            PayFees Results = _IPaymentService.GetPendingAmount(model.MEMBER_ID, model.BATCH_ID , USER_ID);
             return Json(Results);
         }
         [HttpPost]
@@ -62,7 +65,8 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Controllers
         }
         public JsonResult GetPayFeesDetailsHistory(DataTableAjaxPostModel model, PayFees _model) //Gets the todo Lists.  
         {
-            PayFeesPagingation _Results = _IPaymentService.GetPayFeesDetails(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            PayFeesPagingation _Results = _IPaymentService.GetPayFeesDetails(0, USER_ID, model);
             return Json(new
             {
                 draw = model.draw,
@@ -73,12 +77,14 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Controllers
         }
         public JsonResult GetBatchByMember(MemberList model)
         {
-            List<BatchScheduledDateTime> Results = _IPaymentService.GetBatchByMember(model.MEMBERID);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            List<BatchScheduledDateTime> Results = _IPaymentService.GetBatchByMember(model.MEMBERID, USER_ID);
             return Json(Results);
         }
         public JsonResult GetTodayPayFeesHistory(DataTableAjaxPostModel model, PayFees _model)
         {
-            PayFeesPagingation _Results = _IPaymentService.GetTodayPayFeesHistory(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            PayFeesPagingation _Results = _IPaymentService.GetTodayPayFeesHistory(0, USER_ID, model);
             return Json(new
             {
                 draw = model.draw,

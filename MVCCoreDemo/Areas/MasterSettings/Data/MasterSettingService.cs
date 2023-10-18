@@ -12,36 +12,36 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
     public interface IMasterSettingService
     {
         List<Project> GetProject(int PROJECT_ID);
-        MemberRegistrationPagingation GetMember(int MEMBERID, DataTableAjaxPostModel model);
+        MemberRegistrationPagingation GetMember(int MEMBERID, int USER_ID, DataTableAjaxPostModel model);
         List<Gender> GetGender(int SEX_ID);
         ReturnResponse AddMember(MemberRegistration model);
         ReturnResponse UpdateMember(MemberRegistration model);
-        BATCHPagingation GetBatch(int BATCH_ID, DataTableAjaxPostModel model);
+        BATCHPagingation GetBatch(int BATCH_ID, int USER_ID, DataTableAjaxPostModel model);
         ReturnResponse AddBatch(BATCH model);
         ReturnResponse UpdateBatch(BATCH model);
-        BatchMemberPagingation GetBatchMember(int BATCH_MEMBER_MAPPING_ID, DataTableAjaxPostModel model);
+        BatchMemberPagingation GetBatchMember(int BATCH_MEMBER_MAPPING_ID,int USER, DataTableAjaxPostModel model);
         ReturnResponse AddBatchMember(BatchMember model);
         ReturnResponse UpdateBatchMember(BatchMember model);
-        List<MemberList> GetMemberList(int MEMBERID);
-        List<BatchList> GetBatchList(int BATCH_ID);
+        List<MemberList> GetMemberList(int USER_ID);
+        List<BatchList> GetBatchList(int USER_ID);
         ReturnResponse AddTrainer(Trainer model);
         ReturnResponse UpdateTrainer(Trainer model);
-        TrainerPagingation GetTrainerList(int TRAINER_ID, DataTableAjaxPostModel model);
-        List<Specialisation> GetSpecialisationList(int SPECIALIZATION_ID);
-        BatchTimingPagingation GetBatchTiming(int BATCH_TIMING_ID, DataTableAjaxPostModel model);
+        TrainerPagingation GetTrainerList(int TRAINER_ID, int USER_ID, DataTableAjaxPostModel model);
+        List<Specialisation> GetSpecialisationList(int USER_ID);
+        BatchTimingPagingation GetBatchTiming(int BATCH_TIMING_ID, int USER_ID, DataTableAjaxPostModel model);
         ReturnResponse AddBatchTiming(BatchTiming model);
         ReturnResponse UpdateBatchTiming(BatchTiming model);
-        List<TrainerList> GetTrainerList(int TRAINER_ID);
+        List<TrainerList> GetTrainerList(int TRAINER_ID,int USER_ID);
         ReturnResponse DeleteBatchTiming(int BATCH_TIMING_ID);
-        BatchTimingPagingation GetBatchTimingCount(int BATCH_ID, DataTableAjaxPostModel model);
-        List<BatchScheduledDateTime> GetBatchScheduledDateTimeList(int BATCH_TIMING_ID);
-        PackagePagingation GetPackage(int PACKAGE_ID, DataTableAjaxPostModel model);
+        BatchTimingPagingation GetBatchTimingCount(int BATCH_ID, int USER_ID, DataTableAjaxPostModel model);
+        List<BatchScheduledDateTime> GetBatchScheduledDateTimeList(int BATCH_TIMING_ID, int USER_ID);
+        PackagePagingation GetPackage(int PACKAGE_ID, int USER_ID, DataTableAjaxPostModel model);
         ReturnResponse AddPackage(Package model);
         ReturnResponse UpdatePackage(Package model);
-        List<Tax> GetTaxList(int TAX_ID);
-        List<PackageList> GetPackageList(int TAX_ID);
-        int GetBatchNoOfDays(int BATCH_ID);
-        MemberRegistrationPagingation GetMemberToday(int MEMBERID, DataTableAjaxPostModel model);
+        List<Tax> GetTaxList(int TAX_ID, int USER_ID);
+        List<PackageList> GetPackageList(int TAX_ID, int USER_ID);
+        int GetBatchNoOfDays(int BATCH_ID, int USER_ID);
+        MemberRegistrationPagingation GetMemberToday(int MEMBERID, int USER_ID, DataTableAjaxPostModel model);
     }
     public class MasterSettingService: IMasterSettingService
     {
@@ -77,7 +77,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return lstData;
         }
-        public MemberRegistrationPagingation GetMember(int MEMBERID, DataTableAjaxPostModel model)
+        public MemberRegistrationPagingation GetMember(int MEMBERID,int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             MemberRegistrationPagingation _MemberRegistrationPagingation = new MemberRegistrationPagingation();
@@ -90,6 +90,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandText = "PROC_GET_MEMBER";
 
                 cmd.Parameters.Add("@MEMBERID", SqlDbType.Int).Value = MEMBERID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -235,7 +236,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _returnResponse;
         }
-        public BATCHPagingation GetBatch(int BATCH_ID, DataTableAjaxPostModel model)
+        public BATCHPagingation GetBatch(int BATCH_ID,int USER_ID,DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             BATCHPagingation _BATCHPagingation = new BATCHPagingation();
@@ -248,6 +249,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandText = "PROC_GET_BATCH";
 
                 cmd.Parameters.Add("@BATCH_ID", SqlDbType.Int).Value = BATCH_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -303,6 +305,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                     cmd.Parameters.Add("@GST_AMOUNT", SqlDbType.Decimal).Value = model.GST_AMOUNT;
                     cmd.Parameters.Add("@TOTAL_AMOUNT", SqlDbType.Decimal).Value = model.TOTAL_AMOUNT;
                     cmd.Parameters.Add("@NO_OF_DAYS", SqlDbType.Int).Value = model.NO_OF_DAYS;
+                    cmd.Parameters.Add("@ADDED_BY", SqlDbType.Int).Value = model.ADDED_BY;
 
                     cmd.Parameters.Add("@RowCount", SqlDbType.Int);
                     cmd.Parameters["@RowCount"].Direction = ParameterDirection.Output;
@@ -344,6 +347,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                     cmd.Parameters.Add("@TAX_ID", SqlDbType.Int).Value = model.TAX_ID;
                     cmd.Parameters.Add("@GST_AMOUNT", SqlDbType.Decimal).Value = model.GST_AMOUNT;
                     cmd.Parameters.Add("@TOTAL_AMOUNT", SqlDbType.Decimal).Value = model.TOTAL_AMOUNT;
+                    cmd.Parameters.Add("@UPDATED_BY", SqlDbType.Int).Value = model.UPDATED_BY;
 
                     cmd.Parameters.Add("@RowCount", SqlDbType.Int);
                     cmd.Parameters["@RowCount"].Direction = ParameterDirection.Output;
@@ -364,7 +368,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _returnResponse;
         }
-        public BatchMemberPagingation GetBatchMember(int BATCH_MEMBER_MAPPING_ID, DataTableAjaxPostModel model)
+        public BatchMemberPagingation GetBatchMember(int BATCH_MEMBER_MAPPING_ID,int USER, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             BatchMemberPagingation _BATCHPagingation = new BatchMemberPagingation();
@@ -377,6 +381,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandText = "PROC_GET_BATCH_MEMBER";
 
                 cmd.Parameters.Add("@BATCH_MEMBER_MAPPING_ID", SqlDbType.Int).Value = BATCH_MEMBER_MAPPING_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -471,6 +476,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                     cmd.Parameters.Add("@PACKAGE_ID", SqlDbType.Int).Value = model.PACKAGE_ID;
                     cmd.Parameters.Add("@IS_ON_HOLD", SqlDbType.Bit).Value = model.IS_ON_HOLD;
                     cmd.Parameters.Add("@NEXT_FEES_DATETIME", SqlDbType.Date).Value = model.NEXT_FEES_DATETIME;
+                    cmd.Parameters.Add("@UPDATED_BY", SqlDbType.Int).Value = model.UPDATED_BY;
 
                     cmd.Parameters.Add("@RowCount", SqlDbType.Int);
                     cmd.Parameters["@RowCount"].Direction = ParameterDirection.Output;
@@ -491,7 +497,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _returnResponse;
         }
-        public List<MemberList> GetMemberList(int MEMBERID)
+        public List<MemberList> GetMemberList(int USER_ID)
         {
 
             List<MemberList> lstData = new List<MemberList>();
@@ -501,6 +507,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_MEMBER_LIST";
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -518,7 +525,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return lstData;
         }
-        public List<BatchList> GetBatchList(int BATCH_ID)
+        public List<BatchList> GetBatchList(int USER_ID)
         {
 
             List<BatchList> lstData = new List<BatchList>();
@@ -528,6 +535,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_BATCH_LIST";
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -628,7 +636,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _returnResponse;
         }
-        public TrainerPagingation GetTrainerList(int TRAINER_ID, DataTableAjaxPostModel model)
+        public TrainerPagingation GetTrainerList(int TRAINER_ID,int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             TrainerPagingation _MemberRegistrationPagingation = new TrainerPagingation();
@@ -641,6 +649,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandText = "PROC_GET_TRAINER";
 
                 cmd.Parameters.Add("@TRAINER_ID", SqlDbType.Int).Value = TRAINER_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -676,7 +685,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _MemberRegistrationPagingation;
         }
-        public List<Specialisation> GetSpecialisationList(int SPECIALIZATION_ID)
+        public List<Specialisation> GetSpecialisationList(int USER_ID)
         {
 
             List<Specialisation> lstData = new List<Specialisation>();
@@ -686,6 +695,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_SPECIALIZATION";
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -703,7 +713,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return lstData;
         }
-        public BatchTimingPagingation GetBatchTiming(int BATCH_TIMING_ID, DataTableAjaxPostModel model)
+        public BatchTimingPagingation GetBatchTiming(int BATCH_TIMING_ID, int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             BatchTimingPagingation _BatchTimingPagingation = new BatchTimingPagingation();
@@ -716,6 +726,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandText = "PROC_GET_BATCH_TIMIING";
 
                 cmd.Parameters.Add("@BATCH_TIMING_ID", SqlDbType.Int).Value = BATCH_TIMING_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -828,7 +839,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _returnResponse;
         }
-        public List<TrainerList> GetTrainerList(int TRAINER_ID)
+        public List<TrainerList> GetTrainerList(int TRAINER_ID, int USER_ID)
         {
 
             List<TrainerList> lstData = new List<TrainerList>();
@@ -838,6 +849,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_TRAINER_LIST";
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -888,7 +900,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _returnResponse;
         }
-        public BatchTimingPagingation GetBatchTimingCount(int BATCH_ID, DataTableAjaxPostModel model)
+        public BatchTimingPagingation GetBatchTimingCount(int BATCH_ID, int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             BatchTimingPagingation _BatchTimingPagingation = new BatchTimingPagingation();
@@ -901,6 +913,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandText = "PROC_GET_BATCH_TIMING_COUNT";
 
                 cmd.Parameters.Add("@BATCH_ID", SqlDbType.Int).Value = BATCH_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -930,7 +943,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _BatchTimingPagingation;
         }
-        public List<BatchScheduledDateTime> GetBatchScheduledDateTimeList(int BATCH_TIMING_ID)
+        public List<BatchScheduledDateTime> GetBatchScheduledDateTimeList(int BATCH_TIMING_ID,int USER_ID)
         {
 
             List<BatchScheduledDateTime> lstData = new List<BatchScheduledDateTime>();
@@ -940,6 +953,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_BATCH_SCHEDULED_DATETIME_LIST";
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -958,7 +972,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return lstData;
         }
-        public PackagePagingation GetPackage(int PACKAGE_ID, DataTableAjaxPostModel model)
+        public PackagePagingation GetPackage(int PACKAGE_ID,int USER_ID,DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             PackagePagingation _BATCHPagingation = new PackagePagingation();
@@ -971,6 +985,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandText = "PROC_GET_PACKAGE_MANAGEMENT";
 
                 cmd.Parameters.Add("@PACKAGE_ID", SqlDbType.Int).Value = PACKAGE_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -1078,7 +1093,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return _returnResponse;
         }
-        public List<Tax> GetTaxList(int TAX_ID)
+        public List<Tax> GetTaxList(int TAX_ID,int USER_ID)
         {
 
             List<Tax> lstData = new List<Tax>();
@@ -1088,6 +1103,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_TAX_LIST";
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -1106,7 +1122,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return lstData;
         }
-        public List<PackageList> GetPackageList(int TAX_ID)
+        public List<PackageList> GetPackageList(int TAX_ID,int USER_ID)
         {
 
             List<PackageList> lstData = new List<PackageList>();
@@ -1116,6 +1132,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_PACKAGE_LIST";
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -1133,7 +1150,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return lstData;
         }
-        public int GetBatchNoOfDays(int BATCH_ID)
+        public int GetBatchNoOfDays(int BATCH_ID,int USER_ID)
         {
             int NoOfDays = 0;
             using (SqlConnection con = new SqlConnection(CON_STRING))
@@ -1142,6 +1159,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_BATCH_NO_DAYS";
                 cmd.Parameters.Add("@BATCH_ID", SqlDbType.Int).Value = BATCH_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -1155,7 +1173,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
 
             return NoOfDays;
         }
-        public MemberRegistrationPagingation GetMemberToday(int MEMBERID, DataTableAjaxPostModel model)
+        public MemberRegistrationPagingation GetMemberToday(int MEMBERID,int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             MemberRegistrationPagingation _MemberRegistrationPagingation = new MemberRegistrationPagingation();
@@ -1168,6 +1186,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Data
                 cmd.CommandText = "PROC_GET_MEMBER_TODAY";
 
                 cmd.Parameters.Add("@MEMBERID", SqlDbType.Int).Value = MEMBERID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;

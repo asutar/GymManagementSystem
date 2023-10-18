@@ -12,13 +12,13 @@ namespace MVCCoreDemo.Areas.Dashboard.Data
 {
     public interface IDashboardService
     {
-        AllCount GetAllCount(int TAX_ID);
+        AllCount GetAllCount(int USER_ID);
         YearMonthlyChart GetYearlyMonthyFeesDetailsChart(int USER_ID);
         YearMonthlyChart GetYearlyMonthyAdmissionDetailsChart(int USER_ID);
         BirthdayPagingation GetBirthday(int USER_ID, DataTableAjaxPostModel model);
-        MemberRegistrationPagingation GetMemberToday(int MEMBERID, DataTableAjaxPostModel model);
+        MemberRegistrationPagingation GetMemberToday(int MEMBERID,int USER_ID, DataTableAjaxPostModel model);
         UnpaidPagingation GetUnPaidDetails(int USER_ID, DataTableAjaxPostModel model);
-        MemberRegistrationPagingation GetInActiveMember(int MEMBERID, DataTableAjaxPostModel model);
+        MemberRegistrationPagingation GetInActiveMember(int MEMBERID, int USER_ID, DataTableAjaxPostModel model);
     }
     public class DashboardService : IDashboardService
     {
@@ -172,7 +172,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Data
 
             return _BATCHPagingation;
         }
-        public MemberRegistrationPagingation GetMemberToday(int MEMBERID, DataTableAjaxPostModel model)
+        public MemberRegistrationPagingation GetMemberToday(int MEMBERID,int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             MemberRegistrationPagingation _MemberRegistrationPagingation = new MemberRegistrationPagingation();
@@ -185,6 +185,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Data
                 cmd.CommandText = "PROC_GET_MEMBER_TODAY";
 
                 cmd.Parameters.Add("@MEMBERID", SqlDbType.Int).Value = MEMBERID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -263,7 +264,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Data
 
             return _MemberRegistrationPagingation;
         }
-        public MemberRegistrationPagingation GetInActiveMember(int MEMBERID, DataTableAjaxPostModel model)
+        public MemberRegistrationPagingation GetInActiveMember(int MEMBERID,int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             MemberRegistrationPagingation _MemberRegistrationPagingation = new MemberRegistrationPagingation();
@@ -276,6 +277,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Data
                 cmd.CommandText = "PROC_GET_INACTIVE_MEMBER";
 
                 cmd.Parameters.Add("@MEMBERID", SqlDbType.Int).Value = MEMBERID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;

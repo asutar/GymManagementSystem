@@ -12,18 +12,18 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
 {
     public interface IPaymentService
     {
-        List<PaymentTypeList> GetPaymentType(int PAYMENT_ID);
-        PayFeesPagingation GetPayFees(int FEES_MEMBER_ID, DataTableAjaxPostModel model);
-        PayFees GetPendingAmount(int MEMBER_ID,int BATCH_ID);
+        List<PaymentTypeList> GetPaymentType(int PAYMENT_ID, int USER_ID);
+        PayFeesPagingation GetPayFees(int FEES_MEMBER_ID, int USER_ID, DataTableAjaxPostModel model);
+        PayFees GetPendingAmount(int MEMBER_ID,int BATCH_ID, int USER_ID);
         ReturnResponse PayFees(PayFees model);
-        PayFeesPagingation GetPayFeesDetails(int FEES_MEMBER_ID, DataTableAjaxPostModel model);
-        List<BatchScheduledDateTime> GetBatchByMember(int MEMBERID);
-        PayFeesPagingation GetTodayPayFeesHistory(int FEES_MEMBER_ID, DataTableAjaxPostModel model);
+        PayFeesPagingation GetPayFeesDetails(int FEES_MEMBER_ID, int USER_ID, DataTableAjaxPostModel model);
+        List<BatchScheduledDateTime> GetBatchByMember(int MEMBERID,int USER_ID);
+        PayFeesPagingation GetTodayPayFeesHistory(int FEES_MEMBER_ID, int USER_ID, DataTableAjaxPostModel model);
     }
         public class PaymentService : IPaymentService
     {
         string CON_STRING = Startup.ConnectionString;
-        public List<PaymentTypeList> GetPaymentType(int PAYMENT_ID)
+        public List<PaymentTypeList> GetPaymentType(int PAYMENT_ID,int USER_ID)
         {
 
             List<PaymentTypeList> lstData = new List<PaymentTypeList>();
@@ -33,7 +33,8 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "PROC_GET_PAYMENT_TYPE_LIST";
-               // cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int).Value = PAYMENT_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
+                // cmd.Parameters.Add("@PROJECT_ID", SqlDbType.Int).Value = PAYMENT_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -52,7 +53,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
 
             return lstData;
         }
-        public PayFeesPagingation GetPayFees(int FEES_MEMBER_ID, DataTableAjaxPostModel model)
+        public PayFeesPagingation GetPayFees(int FEES_MEMBER_ID,int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             PayFeesPagingation _PayFeesPagingation = new PayFeesPagingation();
@@ -65,6 +66,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
                 cmd.CommandText = "PROC_GET_PAID_FEES";
 
                 cmd.Parameters.Add("@FEES_MEMBER_ID", SqlDbType.Int).Value = FEES_MEMBER_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -98,7 +100,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
 
             return _PayFeesPagingation;
         }
-        public PayFees  GetPendingAmount(int MEMBER_ID,int BATCH_ID)
+        public PayFees  GetPendingAmount(int MEMBER_ID,int BATCH_ID,int USER_ID)
         {
             PayFees _payFees = new PayFees();
             using (SqlConnection con = new SqlConnection(CON_STRING))
@@ -108,6 +110,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
                 cmd.CommandText = "PROC_GET_PANDING_FEES_AMOUNT_BY_MEMBER";
                 cmd.Parameters.Add("@MEMBER_ID", SqlDbType.Int).Value = MEMBER_ID;
                 cmd.Parameters.Add("@BATCH_ID", SqlDbType.Int).Value = BATCH_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 con.Open();
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
@@ -161,7 +164,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
 
             return _returnResponse;
         }
-        public PayFeesPagingation GetPayFeesDetails(int FEES_MEMBER_ID, DataTableAjaxPostModel model)
+        public PayFeesPagingation GetPayFeesDetails(int FEES_MEMBER_ID,int USER_ID,DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             PayFeesPagingation _PayFeesPagingation = new PayFeesPagingation();
@@ -174,6 +177,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
                 cmd.CommandText = "PROC_GET_FEES_DETAILS";
 
                 cmd.Parameters.Add("@FEES_MEMBER_HISTORY_ID", SqlDbType.Int).Value = FEES_MEMBER_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;
@@ -207,7 +211,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
 
             return _PayFeesPagingation;
         }
-        public List<BatchScheduledDateTime> GetBatchByMember(int MEMBERID)
+        public List<BatchScheduledDateTime> GetBatchByMember(int MEMBERID,int USER_ID)
         {
 
             List<BatchScheduledDateTime> lstData = new List<BatchScheduledDateTime>();
@@ -235,7 +239,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
 
             return lstData;
         }
-        public PayFeesPagingation GetTodayPayFeesHistory(int FEES_MEMBER_ID, DataTableAjaxPostModel model)
+        public PayFeesPagingation GetTodayPayFeesHistory(int FEES_MEMBER_ID,int USER_ID, DataTableAjaxPostModel model)
         {
             int TotalRecord = 0;
             PayFeesPagingation _PayFeesPagingation = new PayFeesPagingation();
@@ -248,6 +252,7 @@ namespace MVCCoreDemo.Areas.PaymentDetails.Data
                 cmd.CommandText = "PROC_GET_TODAY_FEES_HISTORY";
 
                 cmd.Parameters.Add("@FEES_MEMBER_HISTORY_ID", SqlDbType.Int).Value = FEES_MEMBER_ID;
+                cmd.Parameters.Add("@USER_ID", SqlDbType.Int).Value = USER_ID;
                 cmd.Parameters.Add("@SORTCOLUMN", SqlDbType.VarChar).Value = model.columns[model.order[0].column].data == null ? "" : model.columns[model.order[0].column].data;
                 cmd.Parameters.Add("@SORTORDER", SqlDbType.VarChar).Value = model.order[0].dir == null ? "" : model.order[0].dir;
                 cmd.Parameters.Add("@OFFSETVALUE", SqlDbType.Int).Value = model.start;

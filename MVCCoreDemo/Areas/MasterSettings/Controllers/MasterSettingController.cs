@@ -84,7 +84,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetMember(DataTableAjaxPostModel model, MemberRegistration _model) //Gets the todo Lists.  
         {
-            MemberRegistrationPagingation _Results = _MasterSettingService.GetMember(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            MemberRegistrationPagingation _Results = _MasterSettingService.GetMember(0, USER_ID, model);
             return Json(new
             {
                 draw = model.draw,
@@ -118,8 +119,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetBatch(DataTableAjaxPostModel model, BATCH _model) //Gets the todo Lists.  
         {
-           
-            BATCHPagingation _Results = _MasterSettingService.GetBatch(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            BATCHPagingation _Results = _MasterSettingService.GetBatch(0, USER_ID, model);
             return Json(new
             {
                 draw = model.draw,
@@ -148,8 +149,9 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
 
         }
         public JsonResult GetBatchMember(DataTableAjaxPostModel model, BatchMember _model) //Gets the todo Lists.  
-        { 
-            BatchMemberPagingation _Results = _MasterSettingService.GetBatchMember(0, model);
+        {
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            BatchMemberPagingation _Results = _MasterSettingService.GetBatchMember(0, USER_ID, model);
            
             return Json(new
             {
@@ -166,6 +168,7 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
             ReturnResponse returnResponse = new ReturnResponse();
 
             model.ADDED_BY = USER_ID;
+            model.UPDATED_BY = USER_ID;
             if (model.OPERATION_STATUS == "UPDATE")
             {
                 returnResponse = _MasterSettingService.UpdateBatchMember(model);
@@ -180,12 +183,14 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetMemberList(MemberList model) //Gets the todo Lists.  
         {
-            IEnumerable<MemberList> Results = _MasterSettingService.GetMemberList(0);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            IEnumerable<MemberList> Results = _MasterSettingService.GetMemberList(USER_ID);
             return Json(Results);
         }
         public JsonResult GetBatchList(BatchList model) //Gets the todo Lists.  
         {
-            IEnumerable<BatchList> Results = _MasterSettingService.GetBatchList(0);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            IEnumerable<BatchList> Results = _MasterSettingService.GetBatchList(USER_ID);
             return Json(Results);
         }
         [HttpPost]
@@ -209,7 +214,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetTrainer(DataTableAjaxPostModel model, BatchMember _model) //Gets the todo Lists.  
         {
-            TrainerPagingation _Results = _MasterSettingService.GetTrainerList(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            TrainerPagingation _Results = _MasterSettingService.GetTrainerList(0, USER_ID, model);
 
             return Json(new
             {
@@ -221,12 +227,14 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetSpecilisationList(Specialisation model) //Gets the todo Lists.  
         {
-            IEnumerable<Specialisation> Results = _MasterSettingService.GetSpecialisationList(0);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            IEnumerable<Specialisation> Results = _MasterSettingService.GetSpecialisationList(USER_ID);
             return Json(Results);
         }
         public JsonResult GetBatchTiming(DataTableAjaxPostModel model, BatchTiming _model) //Gets the todo Lists.  
         {
-            BatchTimingPagingation _Results = _MasterSettingService.GetBatchTiming(_model.BATCH_ID, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            BatchTimingPagingation _Results = _MasterSettingService.GetBatchTiming(_model.BATCH_ID, USER_ID, model);
 
             return Json(new
             {
@@ -238,7 +246,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetTrainerList(BatchList model) //Gets the todo Lists.  
         {
-            IEnumerable<TrainerList> Results = _MasterSettingService.GetTrainerList(0);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            IEnumerable<TrainerList> Results = _MasterSettingService.GetTrainerList(0, USER_ID);
             return Json(Results);
         }
         [HttpPost]
@@ -274,7 +283,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetBatchTimingCount(DataTableAjaxPostModel model, BatchTiming _model) //Gets the todo Lists.  
         {
-            BatchTimingPagingation _Results = _MasterSettingService.GetBatchTimingCount(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            BatchTimingPagingation _Results = _MasterSettingService.GetBatchTimingCount(0, USER_ID, model);
 
             return Json(new
             {
@@ -284,15 +294,16 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
                 data = _Results.BatchTimingList
             });
         }
-        public JsonResult GetBatchScheduledDateTimeList(BatchScheduledDateTime model) //Gets the todo Lists.  
+        public JsonResult GetBatchScheduledDateTimeList(BatchScheduledDateTime model)
         {
-            IEnumerable<BatchScheduledDateTime> Results = _MasterSettingService.GetBatchScheduledDateTimeList(0);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            IEnumerable<BatchScheduledDateTime> Results = _MasterSettingService.GetBatchScheduledDateTimeList(0, USER_ID);
             return Json(Results);
         }
         public JsonResult GetPackage(DataTableAjaxPostModel model, Package _model) //Gets the todo Lists.  
         {
-
-            PackagePagingation _Results = _MasterSettingService.GetPackage(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            PackagePagingation _Results = _MasterSettingService.GetPackage(0, USER_ID, model);
             return Json(new
             {
                 draw = model.draw,
@@ -323,17 +334,20 @@ namespace MVCCoreDemo.Areas.MasterSettings.Controllers
         }
         public JsonResult GetTaxList(Tax model)
         {
-            IEnumerable<Tax> Results = _MasterSettingService.GetTaxList(0);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            IEnumerable<Tax> Results = _MasterSettingService.GetTaxList(0, USER_ID);
             return Json(Results);
         }
         public JsonResult GetPackageList(PackageList model)
         {
-            IEnumerable<PackageList> Results = _MasterSettingService.GetPackageList(0);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            IEnumerable<PackageList> Results = _MasterSettingService.GetPackageList(0, USER_ID);
             return Json(Results);
         }
         public JsonResult GetBatchNoOfDays(BATCH model)
         {
-            int NoOfDays = _MasterSettingService.GetBatchNoOfDays(model.BATCH_ID);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            int NoOfDays = _MasterSettingService.GetBatchNoOfDays(model.BATCH_ID, USER_ID);
 
             return Json(NoOfDays);
         }

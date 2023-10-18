@@ -34,6 +34,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Models
         public string TAX_NAME { get; set; }
         [JsonProperty("NO_OF_DAYS")]
         public int NO_OF_DAYS { get; set; }
+        [JsonProperty("UPDATED_BY")]
+        public int UPDATED_BY { get; set; }
     }
     public class BATCHPagingation
     {

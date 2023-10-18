@@ -25,10 +25,13 @@
                                         <div id="tabstrip" class="nav flex-column nav-tabs h-100" role="tablist" aria-orientation="vertical">
                                             @foreach (var submenu in UserMenus.Where(x => x.ParentMenuId == 5).ToList())
                                             {
-                                                <a class="nav-link" data-toggle="tab" href="#@submenu.Mnu_Action" role="tab">@submenu.MenuName</a>
+                                                <a class="nav-link" data-toggle="tab" href="#@submenu.Mnu_Action" role="tab">
+                                                    <i class="@submenu.IconCssName"></i>
+                                                    <span class="hidden-xs-up text-dark">@submenu.MenuName</span>
+                                                </a>
                                             }
                                             @*<a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true">Role Wise Menu</a>
-                                                <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Role Menu Operation Access</a>*@
+        <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false">Role Menu Operation Access</a>*@
                                         </div>
                                     </div>
                                     <div class="col-7 col-sm-9">

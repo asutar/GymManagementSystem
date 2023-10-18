@@ -34,6 +34,8 @@ namespace MVCCoreDemo.Areas.MasterSettings.Models
         public string NEXT_FEES_DATETIME { get; set; }
         [JsonProperty("IS_ACTIVE")]
         public bool IS_ACTIVE { get; set; }
+        [JsonProperty("UPDATED_BY")]
+        public int UPDATED_BY { get; set; }
     }
     public class BatchMemberPagingation
     {

@@ -45,6 +45,7 @@ namespace MVCCoreDemo.Controllers
                     HttpContext.Session.SetObjectInSession("UserMenus", menuDetails.MENU_MODEL_LIST);
                     HttpContext.Session.SetObjectInSession("USER_ID", _loginModel.USER_ID);
                     HttpContext.Session.SetObjectInSession("ApiKey", _ApiKeyService);
+                    HttpContext.Session.SetObjectInSession("USER_NAME", _loginModel.USER_NAME);
                     // HttpContext.Session.Set<List<MenuModel>>("UserMenus", menuDetails.MENU_MODEL_LIST);
 
 

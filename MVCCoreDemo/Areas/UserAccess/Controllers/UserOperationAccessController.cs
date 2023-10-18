@@ -178,7 +178,7 @@ namespace MVCCoreDemo.Areas.UserAccess.Controllers
         {
             int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
            
-            model.SUB_CLIENT_ID = model.USER_ID;
+            model.SUB_CLIENT_ID = USER_ID;
             model.USER_ID = USER_ID;
             model.ADDED_BY_ID = USER_ID;
             ReturnResponse returnResponse = new ReturnResponse();

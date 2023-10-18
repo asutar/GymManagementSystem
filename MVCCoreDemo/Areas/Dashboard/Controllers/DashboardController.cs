@@ -27,7 +27,7 @@ namespace MVCCoreDemo.Areas.Dashboard.Controllers
         public JsonResult GetAllCount(AllCount model)
         {
             model.USER_ID =  Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
-            AllCount Results = _IDashboardService.GetAllCount(0);
+            AllCount Results = _IDashboardService.GetAllCount(model.USER_ID);
             return Json(Results);
         }
         public IActionResult Logout()
@@ -59,9 +59,10 @@ namespace MVCCoreDemo.Areas.Dashboard.Controllers
                 data = _Results.BirthdayList
             });
         }
-        public JsonResult GetMember(DataTableAjaxPostModel model, MemberRegistration _model) 
+        public JsonResult GetMember(DataTableAjaxPostModel model, MemberRegistration _model)
         {
-            MemberRegistrationPagingation _Results = _IDashboardService.GetMemberToday(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            MemberRegistrationPagingation _Results = _IDashboardService.GetMemberToday(0, USER_ID, model);
             return Json(new
             {
                 draw = model.draw,
@@ -72,7 +73,8 @@ namespace MVCCoreDemo.Areas.Dashboard.Controllers
         }
         public JsonResult GetUnPaidDetails(DataTableAjaxPostModel model, Unpaid _model)
         {
-            UnpaidPagingation _Results = _IDashboardService.GetUnPaidDetails(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            UnpaidPagingation _Results = _IDashboardService.GetUnPaidDetails(USER_ID, model);
             return Json(new
             {
                 draw = model.draw,
@@ -83,7 +85,8 @@ namespace MVCCoreDemo.Areas.Dashboard.Controllers
         }
         public JsonResult GetInActiveMember(DataTableAjaxPostModel model, MemberRegistration _model)
         {
-            MemberRegistrationPagingation _Results = _IDashboardService.GetInActiveMember(0, model);
+            int USER_ID = Convert.ToInt32(HttpContext.Session.GetString("USER_ID"));
+            MemberRegistrationPagingation _Results = _IDashboardService.GetInActiveMember(0, USER_ID, model);
             return Json(new
             {
                 draw = model.draw,
