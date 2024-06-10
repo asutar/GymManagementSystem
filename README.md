@@ -123,14 +123,7 @@ Sub-client users have restricted access. They can assign trainers, maintain memb
 
 3. **Update Database Connection String**:
    - In `appsettings.json`, update the connection string to point to your SQL Server instance.
-
-4. **Run Migrations**:
-   - Open the Package Manager Console and run:
-     ```bash
-     Update-Database
-     ```
-
-5. **Build and Run the Project**:
+4. **Build and Run the Project**:
    - Build the solution in Visual Studio.
    - Run the project to start the web application.
 
